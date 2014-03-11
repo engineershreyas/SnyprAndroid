@@ -47,8 +47,9 @@ public class MainActivity extends Activity {
 	User u;
 	Register r;
 	String scoreInfo;
-	//ParseQuery<ParseObject> query = ParseQuery.getQuery("Score");
+	
 	private Photo photo;
+	ParseQuery<ParseObject> query = ParseQuery.getQuery("Photo");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	
@@ -67,7 +68,36 @@ public class MainActivity extends Activity {
 		
 		Toast.makeText(ctx, "Welcome " + ParseUser.getCurrentUser().getUsername(), Toast.LENGTH_SHORT).show();
 		scoreT = (TextView)findViewById(R.id.textView1);
-		//query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
+		query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
+		query.findInBackground(new FindCallback<ParseObject>(){
+
+			@Override
+			public void done(List<ParseObject> objs, ParseException arg1) {
+				// TODO Auto-generated method stub
+				if(objs!=null){
+				int x = 0;
+				for(int i = 0; i<objs.size();i++){
+					int s = objs.get(i).getInt("likes");
+					Log.d("likes",String.valueOf(s));
+					x+=s;
+					Log.d("total score",String.valueOf(x));
+					
+					
+					
+				}
+				//Log.d("score",String.valueOf(x));
+				ParseUser.getCurrentUser().put("score", x);
+				ParseUser.getCurrentUser().saveEventually();
+				
+				}
+				else{
+					ParseUser.getCurrentUser().put("score", 0);
+					ParseUser.getCurrentUser().saveEventually();
+				}
+				
+			}
+			
+		});
 		scoreInfo = String.valueOf(ParseUser.getCurrentUser().getInt("score"));
 		Log.d("score",scoreInfo);
 		scoreT.setText("Your Score: " + scoreInfo);

@@ -8,8 +8,13 @@ import com.parse.ParseUser;
 
 @ParseClassName("SnypPoint")
 public class SnypPoint extends ParseObject {
-	public void setMessage(){
+	public void setMessage(String t){
+		if(t == null || t.equalsIgnoreCase("")){
 		put("message",ParseUser.getCurrentUser().getUsername() + " snypd someone at this location!");
+		}
+		else{
+			put("message",ParseUser.getCurrentUser().getUsername() + " snypd " + t + " at this location!");
+		}
 		
 	}
 	

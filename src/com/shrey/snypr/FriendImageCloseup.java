@@ -28,6 +28,7 @@ public class FriendImageCloseup extends Activity {
 	Button b,un;
 	ParseObject like = new ParseObject("Like");
 	ParseQuery<ParseObject> query = ParseQuery.getQuery("Like");
+	ParseQuery<ParseUser> query1 = ParseUser.getQuery();
 	boolean go;
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -59,15 +60,14 @@ public class FriendImageCloseup extends Activity {
 		});
 		
 		query.whereEqualTo("filename", ph.getParseFile("photo").getName());
-		query.whereEqualTo("likedBy", ParseUser.getCurrentUser().getUsername());
+		//query.whereEqualTo("likedBy", ParseUser.getCurrentUser().getUsername());
 		query.findInBackground(new FindCallback<ParseObject>(){
 
 			@Override
 			public void done(List<ParseObject> objs, ParseException e) {
 				if(objs!=null){
 					for(int i = 0;i<objs.size();i++){
-						if(objs.get(i).getString("filename").equals(ph.getParseFile("photo").getName()) &&
-								objs.get(i).getString("likedBy").equals(ParseUser.getCurrentUser().getUsername())){
+						if(objs.get(i).getString("likedBy").equals(ParseUser.getCurrentUser().getUsername())){
 							un.setVisibility(View.VISIBLE);
 							b.setVisibility(View.INVISIBLE);
 						}
@@ -90,6 +90,7 @@ public class FriendImageCloseup extends Activity {
 				
 				ph.increment("likes",1);
 				ph.saveEventually();
+				
 				like.put("likedBy", ParseUser.getCurrentUser().getUsername());
 				like.put("filename", ph.getParseFile("photo").getName());
 				like.saveEventually();
@@ -118,8 +119,7 @@ public class FriendImageCloseup extends Activity {
 					public void done(List<ParseObject> objs, ParseException e) {
 						if(objs!=null){
 							for(int i = 0;i<objs.size();i++){
-								if(objs.get(i).getString("filename").equals(ph.getParseFile("photo").getName()) &&
-										objs.get(i).getString("likedBy").equals(ParseUser.getCurrentUser().getUsername())){
+								if(objs.get(i).getString("likedBy").equals(ParseUser.getCurrentUser().getUsername())){
 									
 									try{objs.get(i).delete();
 									}
@@ -129,6 +129,8 @@ public class FriendImageCloseup extends Activity {
 									objs.get(i).saveEventually();
 								}
 							}
+							
+						
 						}
 						
 					}

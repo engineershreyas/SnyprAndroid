@@ -30,7 +30,7 @@ public class Snypr extends Application {
 	}
 	
 	 public static float getSearchDistance() {
-		    return preferences.getFloat(KEY_SEARCH_DISTANCE, 250);
+		    return preferences.getFloat(KEY_SEARCH_DISTANCE, 3000);
 		  }
 
 		  public static void setSearchDistance(float value) {

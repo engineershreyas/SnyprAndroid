@@ -109,7 +109,7 @@ GooglePlayServicesClient.OnConnectionFailedListener, com.google.android.gms.loca
 	  private static final int MAX_POST_SEARCH_RESULTS = 20;
 
 	  // Maximum post search radius for map in kilometers
-	  private static final int MAX_POST_SEARCH_DISTANCE = 1000;
+	  private static final int MAX_POST_SEARCH_DISTANCE = 3000;
 
 	  /*
 	   * Other class member variables

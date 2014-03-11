@@ -39,10 +39,12 @@ import com.shrey.pojos.User;
 import com.shrey.snypr.R;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Bitmap;
@@ -51,6 +53,7 @@ import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.location.Location;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
@@ -58,6 +61,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.SurfaceHolder.Callback;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -196,7 +200,7 @@ GooglePlayServicesClient.OnConnectionFailedListener, com.google.android.gms.loca
 					@Override
 					public void onPictureTaken(byte[] data, Camera camera) {
 						saveScaledPhoto(data);
-						ParseUser.getCurrentUser().increment("score",30);
+						//ParseUser.getCurrentUser().increment("score",30);
 						Toast.makeText(getActivity(), "Snypd!", Toast.LENGTH_SHORT).show();
 						 Location myLoc = (currentLocation == null) ? lastLocation : currentLocation;
 					        if (myLoc == null) {
@@ -205,25 +209,67 @@ GooglePlayServicesClient.OnConnectionFailedListener, com.google.android.gms.loca
 					          return;
 					        }
 					        final ParseGeoPoint myPoint = geoPointFromLocation(myLoc);
-					        SnypPoint post = new SnypPoint();
+					        final SnypPoint post = new SnypPoint();
 				            // Set the location to the current user's location
-				            post.setLocation(myPoint);
-				            post.setMessage();
-				            post.setUser(ParseUser.getCurrentUser());
-				            ParseACL acl = new ParseACL();
-				            // Give public read access
-				            acl.setPublicReadAccess(true);
-				            post.setACL(acl);
-				            // Save the post
-				            post.saveInBackground(new SaveCallback() {
-				              @Override
-				              public void done(ParseException e) {
-				                // Update the list view and the map
-				                //doListQuery();
-				                //doMapQuery();
-				              }
-				            });
-						ctx.startActivity(new Intent(ctx,MainActivity.class));
+					        AlertDialog.Builder alert = new AlertDialog.Builder(ctx);
+					        alert.setTitle("Who did you snyp?");
+					        final EditText input = new EditText(ctx);
+					        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+					        alert.setView(input);
+					        alert.setPositiveButton("This is who I snypd", new DialogInterface.OnClickListener(){
+
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									// TODO Auto-generated method stub
+									 post.setLocation(myPoint);
+							            post.setMessage(input.getText().toString());
+							            post.setUser(ParseUser.getCurrentUser());
+							            ParseACL acl = new ParseACL();
+							            // Give public read access
+							            acl.setPublicReadAccess(true);
+							            post.setACL(acl);
+							            // Save the post
+							            post.saveInBackground(new SaveCallback() {
+							              @Override
+							              public void done(ParseException e) {
+							                // Update the list view and the map
+							                //doListQuery();
+							                //doMapQuery();
+							              }
+							            });
+							            ctx.startActivity(new Intent(ctx,MainActivity.class));
+								}
+					        
+					        });
+					        
+					        alert.setNegativeButton("I don't know", new DialogInterface.OnClickListener() {
+								
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									// TODO Auto-generated method stub
+									post.setLocation(myPoint);
+						            post.setMessage(input.getText().toString());
+						            post.setUser(ParseUser.getCurrentUser());
+						            ParseACL acl = new ParseACL();
+						            // Give public read access
+						            acl.setPublicReadAccess(true);
+						            post.setACL(acl);
+						            // Save the post
+						            post.saveInBackground(new SaveCallback() {
+						              @Override
+						              public void done(ParseException e) {
+						                // Update the list view and the map
+						                //doListQuery();
+						                //doMapQuery();
+						              }
+						            });
+						            ctx.startActivity(new Intent(ctx,MainActivity.class));
+								}
+							});
+				           alert.create().show();
+					        
+						
 						
 					}
 

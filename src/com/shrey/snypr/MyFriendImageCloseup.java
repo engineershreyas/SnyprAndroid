@@ -59,17 +59,16 @@ public class MyFriendImageCloseup extends Activity {
 			}
 			
 		});
-		query1.whereEqualTo("username", ph.getString("username"));
+		
 		query.whereEqualTo("filename", ph.getParseFile("photo").getName());
-		query.whereEqualTo("likedBy", ParseUser.getCurrentUser().getUsername());
+		//query.whereEqualTo("likedBy", ParseUser.getCurrentUser().getUsername());
 		query.findInBackground(new FindCallback<ParseObject>(){
 
 			@Override
 			public void done(List<ParseObject> objs, ParseException e) {
 				if(objs!=null){
 					for(int i = 0;i<objs.size();i++){
-						if(objs.get(i).getString("filename").equals(ph.getParseFile("photo").getName()) &&
-								objs.get(i).getString("likedBy").equals(ParseUser.getCurrentUser().getUsername())){
+						if(objs.get(i).getString("likedBy").equals(ParseUser.getCurrentUser().getUsername())){
 							un.setVisibility(View.VISIBLE);
 							b.setVisibility(View.INVISIBLE);
 						}
@@ -95,24 +94,6 @@ public class MyFriendImageCloseup extends Activity {
 				like.put("likedBy", ParseUser.getCurrentUser().getUsername());
 				like.put("filename", ph.getParseFile("photo").getName());
 				like.saveEventually();
-				query1.findInBackground(new FindCallback <ParseUser>(){
-
-					@Override
-					public void done(List<ParseUser> users, ParseException arg1) {
-						// TODO Auto-generated method stub
-						if(users!=null){
-							for(int i = 0; i < users.size();i++){
-								if(users.get(i).getUsername().equals(ph.getString("username"))){
-									Log.d("u",ph.getString("username"));
-									users.get(i).increment("score",1);
-									users.get(i).saveEventually();
-								}
-							}
-						}
-						
-					}
-					
-				});
 				
 				
 				
@@ -155,7 +136,7 @@ public class MyFriendImageCloseup extends Activity {
 					}
 					
 				});
-				
+				query1.whereEqualTo("username", ph.getString("username"));
 				query1.findInBackground(new FindCallback<ParseUser>(){
 
 					@Override
@@ -163,10 +144,10 @@ public class MyFriendImageCloseup extends Activity {
 						// TODO Auto-generated method stub
 						if(users!=null){
 							for(int i = 0; i <users.size();i++){
-								if(users.get(i).getUsername().equals(ph.getString("username"))){
+								
 									users.get(i).increment("score",-1);
 									users.get(i).saveEventually();
-								}
+								
 							}
 						}
 					}
