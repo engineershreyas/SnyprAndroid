@@ -73,6 +73,8 @@
          <activity android:name = "com.shrey.snypr.MyFriendSnyps"/>
          <activity android:name = "com.shrey.snypr.MyFriendImageCloseup"/>
          <activity android:name = "com.shrey.snypr.SnypMap"/>
+         <activity android:name = "com.shrey.snypr.Leaderboard"/>
+         <activity android:name = "com.shrey.snypr.GoToFriends"/>
          
         <meta-data
     android:name="com.google.android.maps.v2.API_KEY"

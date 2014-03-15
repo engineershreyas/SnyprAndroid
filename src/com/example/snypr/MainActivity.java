@@ -15,7 +15,9 @@ import com.shrey.pojos.Storage;
 import com.shrey.pojos.User;
 import com.shrey.snypr.FriendSearch;
 import com.shrey.snypr.GoToCamera;
+import com.shrey.snypr.GoToFriends;
 import com.shrey.snypr.Intro;
+import com.shrey.snypr.Leaderboard;
 import com.shrey.snypr.MyFriends;
 import com.shrey.snypr.Picture;
 import com.shrey.snypr.R;
@@ -41,7 +43,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-	Button s,l,v,f,mf,sm;
+	Button s,l,v,f,mf,sm,lb;
 	public static Context ctx;
 	TextView scoreT;
 	User u;
@@ -50,6 +52,7 @@ public class MainActivity extends Activity {
 	
 	private Photo photo;
 	ParseQuery<ParseObject> query = ParseQuery.getQuery("Photo");
+	ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Friend");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	
@@ -62,9 +65,10 @@ public class MainActivity extends Activity {
 		s = (Button)findViewById(R.id.snipe);
 		l = (Button)findViewById(R.id.lo);
 		v = (Button)findViewById(R.id.vw);
-		f = (Button)findViewById(R.id.button1);
-		mf = (Button)findViewById(R.id.button2);
+		f = (Button)findViewById(R.id.button0);
+		
 		sm = (Button)findViewById(R.id.mapButton);
+		lb = (Button)findViewById(R.id.lead);
 		
 		Toast.makeText(ctx, "Welcome " + ParseUser.getCurrentUser().getUsername(), Toast.LENGTH_SHORT).show();
 		scoreT = (TextView)findViewById(R.id.textView1);
@@ -98,6 +102,23 @@ public class MainActivity extends Activity {
 			}
 			
 		});
+		query1.whereEqualTo("friendname", ParseUser.getCurrentUser().getUsername());
+		query1.findInBackground(new FindCallback<ParseObject>(){
+
+			@Override
+			public void done(List<ParseObject> objs, ParseException arg1) {
+				// TODO Auto-generated method stub
+				if(objs!=null){
+					for(int i = 0;i<objs.size();i++){
+						objs.get(i).put("friendScore",ParseUser.getCurrentUser().getInt("score"));
+						objs.get(i).saveEventually();
+					}
+				}
+				
+			}
+			
+		});
+		
 		scoreInfo = String.valueOf(ParseUser.getCurrentUser().getInt("score"));
 		Log.d("score",scoreInfo);
 		scoreT.setText("Your Score: " + scoreInfo);
@@ -130,23 +151,6 @@ public class MainActivity extends Activity {
 			}
 		});
 		
-		f.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				ctx.startActivity(new Intent(ctx,FriendSearch.class));
-			}
-		});
-		
-		mf.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				ctx.startActivity(new Intent(ctx,MyFriends.class));
-			}
-		});
 		
 		sm.setOnClickListener(new View.OnClickListener() {
 			
@@ -154,6 +158,24 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				ctx.startActivity(new Intent(ctx,SnypMap.class));
+			}
+		});
+		
+		lb.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				ctx.startActivity(new Intent(ctx,Leaderboard.class));
+			}
+		});
+		
+		f.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				ctx.startActivity(new Intent(ctx,GoToFriends.class));
 			}
 		});
     }

@@ -230,14 +230,7 @@ GooglePlayServicesClient.OnConnectionFailedListener, com.google.android.gms.loca
 							            acl.setPublicReadAccess(true);
 							            post.setACL(acl);
 							            // Save the post
-							            post.saveInBackground(new SaveCallback() {
-							              @Override
-							              public void done(ParseException e) {
-							                // Update the list view and the map
-							                //doListQuery();
-							                //doMapQuery();
-							              }
-							            });
+							            post.saveEventually();
 							            ctx.startActivity(new Intent(ctx,MainActivity.class));
 								}
 					        
@@ -256,14 +249,7 @@ GooglePlayServicesClient.OnConnectionFailedListener, com.google.android.gms.loca
 						            acl.setPublicReadAccess(true);
 						            post.setACL(acl);
 						            // Save the post
-						            post.saveInBackground(new SaveCallback() {
-						              @Override
-						              public void done(ParseException e) {
-						                // Update the list view and the map
-						                //doListQuery();
-						                //doMapQuery();
-						              }
-						            });
+						            post.saveEventually();
 						            ctx.startActivity(new Intent(ctx,MainActivity.class));
 								}
 							});

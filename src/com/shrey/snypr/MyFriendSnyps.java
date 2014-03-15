@@ -62,7 +62,7 @@ public class MyFriendSnyps extends Activity {
 					public void done(List<ParseObject> objs, ParseException e) {
 						// TODO Auto-generated method stub
 						if(e == null){
-							ph = objs.get(position);
+							ph = objs.get(objs.size()-1-position);
 							file = ph.getParseFile("photo");
 							if(file != null){
 							Log.d("File name",file.getName());
@@ -175,7 +175,7 @@ public class MyFriendSnyps extends Activity {
 				public ParseQuery<Photo> create() {
 					ParseQuery<Photo> query = ParseQuery.getQuery("Photo");
 					query.whereEqualTo("username", friend.getString("friendname"));
-					
+					query.addDescendingOrder("createdAt");
 					return query;
 				}
 				

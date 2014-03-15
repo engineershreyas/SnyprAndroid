@@ -28,6 +28,7 @@ import com.parse.FindCallback;
 import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseQueryAdapter.QueryFactory;
@@ -35,6 +36,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 
+import com.shrey.pojos.Friend;
 import com.shrey.pojos.SnypPoint;
 
 
@@ -140,8 +142,11 @@ GooglePlayServicesClient.OnConnectionFailedListener, com.google.android.gms.loca
 
 	  // Adapter for the Parse query
 	  private ParseQueryAdapter<SnypPoint> posts;
+	  
+	  private ParseQuery<ParseObject> friends = ParseQuery.getQuery("Friend");
 
-	
+	  //private MarkerOptions markerOpts;
+	  
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.snyp_map);
@@ -470,15 +475,19 @@ GooglePlayServicesClient.OnConnectionFailedListener, com.google.android.gms.loca
 		        // Posts to show on the map
 		        Set<String> toKeep = new HashSet<String>();
 		        // Loop through the results of the search
-		        for (SnypPoint post : objects ) {
+		        for (final SnypPoint post : objects ) {
 		          // Add this post to the list of map pins to keep
 		          toKeep.add(post.getObjectId());
 		          // Check for an existing marker for this post
 		          Marker oldMarker = mapMarkers.get(post.getObjectId());
 		          // Set up the map marker's location
-		          MarkerOptions markerOpts =
+		           MarkerOptions markerOpts =
 		              new MarkerOptions().position(new LatLng(post.getLocation().getLatitude(), post
 		                  .getLocation().getLongitude()));
+		                  
+		          final MarkerOptions markerOpts1 =
+			              new MarkerOptions().position(new LatLng(post.getLocation().getLatitude(), post
+			                  .getLocation().getLongitude()));
 		          // Set up the marker properties based on if it is within the search radius
 		          if (post.getLocation().distanceInKilometersTo(myPoint) > radius * METERS_PER_FEET
 		              / METERS_PER_KILOMETER) {
@@ -507,10 +516,31 @@ GooglePlayServicesClient.OnConnectionFailedListener, com.google.android.gms.loca
 		                oldMarker.remove();
 		              }
 		            }
-		            // Display a green marker with the post information
+		            // Display an orange marker with the post information
+		            /*friends.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
+		            friends.findInBackground(new FindCallback<ParseObject>(){
+
+						@Override
+						public void done(List<ParseObject> objs,
+								ParseException e) {
+							// TODO Auto-generated method stub
+							if(objs!=null){
+								for(int i = 0; i < objs.size();i++){
+									if(objs.get(i).getString("friendname").equals(post.getUser().getUsername())){
+										markerOpts = markerOpts.title(post.getMessage()).snippet(post.getUser().getUsername()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+												
+												
+									}
+								}
+							}
+							
+						}
+		            	
+		            });
+		            */
 		            markerOpts =
-		                markerOpts.title(post.getMessage()).snippet(post.getUser().getUsername())
-		                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+		                markerOpts.title(post.getMessage()).snippet(post.getUser().getUsername() + " " + post.getCreatedAt())
+		                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
 		          }
 		          // Add a new marker
 		          Marker marker = map.getMap().addMarker(markerOpts);

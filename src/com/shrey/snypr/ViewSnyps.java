@@ -85,7 +85,7 @@ public class ViewSnyps extends Activity{
 					public void done(List<ParseObject> objs, ParseException e) {
 						// TODO Auto-generated method stub
 						if(e == null){
-							ph = objs.get(position);
+							ph = objs.get(objs.size()-1-position);
 							file = ph.getParseFile("photo");
 							if(file != null){
 							Log.d("File name",file.getName());

@@ -8,69 +8,68 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-     <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="Your Score: "
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
     <Button
         android:id="@+id/snipe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/vw"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/textView1"
         android:layout_marginTop="58dp"
         android:text="Snipe" />
 
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lead"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Your Score: "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
     <Button
         android:id="@+id/vw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/button1"
+        android:layout_alignLeft="@+id/snipe"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/snipe"
         android:text="View Snyps" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/lead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/vw"
-        android:text="Find a Friend" />
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="33dp"
+        android:text="Leader Board" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/button0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button1"
-        android:layout_alignRight="@+id/button1"
-        android:layout_below="@+id/button1"
-        android:text="My Friends" />
-
-    <Button
-        android:id="@+id/lo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button2"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/button2"
-        android:text="Log Out" />
+        android:layout_above="@+id/mapButton"
+        android:layout_alignLeft="@+id/vw"
+        android:layout_alignRight="@+id/vw"
+        android:text="Friends" />
 
     <Button
         android:id="@+id/mapButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button2"
-        android:layout_alignRight="@+id/button2"
-        android:layout_below="@+id/button2"
+        android:layout_above="@+id/lo"
+        android:layout_alignLeft="@+id/button0"
+        android:layout_alignRight="@+id/button0"
         android:text="Snyp Map" />
+
+    <Button
+        android:id="@+id/lo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Log Out" />
 
 </RelativeLayout>

@@ -136,23 +136,6 @@ public class MyFriendImageCloseup extends Activity {
 					}
 					
 				});
-				query1.whereEqualTo("username", ph.getString("username"));
-				query1.findInBackground(new FindCallback<ParseUser>(){
-
-					@Override
-					public void done(List<ParseUser> users, ParseException arg1) {
-						// TODO Auto-generated method stub
-						if(users!=null){
-							for(int i = 0; i <users.size();i++){
-								
-									users.get(i).increment("score",-1);
-									users.get(i).saveEventually();
-								
-							}
-						}
-					}
-					
-				});
 				
 				
 				go = false;

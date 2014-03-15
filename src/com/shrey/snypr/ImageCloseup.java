@@ -24,7 +24,7 @@ public class ImageCloseup extends Activity{
 	ParseFile f;
 	ParseObject l = new ParseObject("Like");
 	ParseObject ph;
-	Button b;
+	Button b,un;
 	Context ctx;
 	ParseQuery<ParseObject> query = ParseQuery.getQuery("Photo");
 	ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Like");
@@ -43,8 +43,13 @@ public class ImageCloseup extends Activity{
 		
 		b = (Button)findViewById(R.id.likeButton);
 		b.setEnabled(false);
-		b.setVisibility(View.GONE);
+		b.setVisibility(View.INVISIBLE);
+		un = (Button)findViewById(R.id.unlikeButton);
+		un.setEnabled(false);
+		un.setVisibility(View.INVISIBLE);
+		
 		commentCount = (TextView)findViewById(R.id.likeCount);
+		//commentCount.setVisibility(View.GONE);
 		
 		setLikeCount();
 		p.setParseFile(ph.getParseFile("photo"));
@@ -81,7 +86,7 @@ public class ImageCloseup extends Activity{
 	
 	public void setLikeCount(){
 		if(String.valueOf(ph.getInt("likes"))!=null){
-		commentCount.setText(String.valueOf(ph.getInt("likes")));
+		commentCount.setText("Likes: "+ String.valueOf(ph.getInt("likes")));
 		}
 		else{
 			commentCount.setText("0");
