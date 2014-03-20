@@ -6,9 +6,12 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,7 +39,7 @@ public class SignIn extends Activity{
 	Button b;
 	EditText u,p;
 	List<User> l = new ArrayList<User>();
-	
+	ActionBar actionbar;
 	User[] la;
 	Context ctx;
 	User currentUser;
@@ -75,7 +78,13 @@ public class SignIn extends Activity{
 				});
 			}
 		});
+		actionbar = getActionBar();
+		actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setTitle("Sign In");
+		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
+		
 	}
+	
 }
 					
 					

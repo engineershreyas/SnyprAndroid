@@ -201,19 +201,20 @@ containing a value of this type.
         public static final int common_signin_btn_text_normal_light=0x7f020015;
         public static final int common_signin_btn_text_pressed_dark=0x7f020016;
         public static final int common_signin_btn_text_pressed_light=0x7f020017;
-        public static final int ic_action_photo=0x7f020018;
-        public static final int ic_launcher=0x7f020019;
-        public static final int ic_plusone_medium_off_client=0x7f02001a;
-        public static final int ic_plusone_small_off_client=0x7f02001b;
-        public static final int ic_plusone_standard_off_client=0x7f02001c;
-        public static final int ic_plusone_tall_off_client=0x7f02001d;
+        public static final int custom_btn_orange=0x7f020018;
+        public static final int ic_action_photo=0x7f020019;
+        public static final int ic_launcher=0x7f02001a;
+        public static final int ic_plusone_medium_off_client=0x7f02001b;
+        public static final int ic_plusone_small_off_client=0x7f02001c;
+        public static final int ic_plusone_standard_off_client=0x7f02001d;
+        public static final int ic_plusone_tall_off_client=0x7f02001e;
     }
     public static final class id {
         public static final int Add=0x7f050010;
         public static final int View=0x7f050011;
         public static final int action_settings=0x7f050032;
         public static final int allBoard=0x7f050021;
-        public static final int button0=0x7f050009;
+        public static final int button0=0x7f05000a;
         public static final int button2=0x7f050017;
         public static final int camera_photo_button=0x7f05000f;
         public static final int camera_surface_view=0x7f05000e;
@@ -227,13 +228,13 @@ containing a value of this type.
         public static final int friendList=0x7f050013;
         public static final int hybrid=0x7f050004;
         public static final int imageList=0x7f050031;
-        public static final int lead=0x7f050007;
+        public static final int lead=0x7f050005;
         public static final int likeButton=0x7f05001a;
         public static final int likeCount=0x7f05001b;
         public static final int ln=0x7f050029;
-        public static final int lo=0x7f05000b;
+        public static final int lo=0x7f050009;
         public static final int map=0x7f05002e;
-        public static final int mapButton=0x7f05000a;
+        public static final int mapButton=0x7f05000b;
         public static final int name=0x7f050012;
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
@@ -248,11 +249,11 @@ containing a value of this type.
         public static final int searchButton=0x7f050015;
         public static final int si=0x7f05001d;
         public static final int snin=0x7f05002c;
-        public static final int snipe=0x7f050005;
+        public static final int snipe=0x7f050006;
         public static final int snyp_image=0x7f05000c;
         public static final int snyp_preview_image1=0x7f050018;
         public static final int terrain=0x7f050003;
-        public static final int textView1=0x7f050006;
+        public static final int textView1=0x7f050007;
         public static final int textView2=0x7f05001e;
         public static final int unlikeButton=0x7f050019;
         public static final int us=0x7f050025;
@@ -416,6 +417,7 @@ containing a value of this type.
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f090001;
+        public static final int btnStyleOrange=0x7f090002;
     }
     public static final class styleable {
         /** Attributes that can be used with a AdsAttrs.

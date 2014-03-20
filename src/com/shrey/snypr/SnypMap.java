@@ -40,6 +40,7 @@ import com.shrey.pojos.Friend;
 import com.shrey.pojos.SnypPoint;
 
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -47,6 +48,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -144,12 +146,16 @@ GooglePlayServicesClient.OnConnectionFailedListener, com.google.android.gms.loca
 	  private ParseQueryAdapter<SnypPoint> posts;
 	  
 	  private ParseQuery<ParseObject> friends = ParseQuery.getQuery("Friend");
-
+	  ActionBar actionbar;
 	  //private MarkerOptions markerOpts;
 	  
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.snyp_map);
+		actionbar = getActionBar();
+		actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setTitle("Snyp Map");
+		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 		radius = Snypr.getSearchDistance();
 		lastRadius = radius;
 		

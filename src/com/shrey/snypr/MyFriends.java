@@ -12,9 +12,12 @@ import com.parse.ParseUser;
 import com.shrey.pojos.Friend;
 import com.shrey.util.MySecondAdapter;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,9 +35,14 @@ public class MyFriends extends Activity {
 	Context ctx;
 	ParseQuery<ParseObject> query = ParseQuery.getQuery("Friend");
 	MySecondAdapter adapter1;
+	ActionBar actionbar;
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.friend_search);
+		actionbar = getActionBar();
+		actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setTitle("Your friends");
+		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 		ctx = this;
 		qf = new ParseQueryAdapter.QueryFactory<Friend>() {
 

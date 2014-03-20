@@ -14,9 +14,12 @@ import com.parse.ParseUser;
 import com.shrey.pojos.Photo;
 import com.shrey.util.MyAdapter;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,14 +37,22 @@ public class MyFriendSnyps extends Activity {
 	ParseFile file;
 	ParseObject friend;
 	static boolean go;
+	ActionBar actionbar;
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.view_snyps);
+		View view = this.getWindow().getDecorView();
+		actionbar = getActionBar();
+		actionbar.setDisplayHomeAsUpEnabled(true);
+		friend = MyFriendPage.getFriendAgain();
+		actionbar.setTitle(friend.getString("friendname")+"'s snyps");
+		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 		ph = null;
 		ctx = this;
 		//p = (ParseImageView)findViewById(R.id.snyp_preview_image);
 		//p.setVisibility(View.GONE);
-		friend = MyFriendPage.getFriendAgain();
+		
+		
 		adapter = new Adapter(this);
 		query.whereEqualTo("username", friend.getString("friendname"));
 		

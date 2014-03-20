@@ -14,9 +14,12 @@ import com.parse.ParseUser;
 import com.shrey.pojos.Photo;
 import com.shrey.util.MyAdapter;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,17 +33,23 @@ public class FriendSnyps extends Activity {
 	ParseQuery<ParseObject> query = ParseQuery.getQuery("Photo");
 	public static ParseObject ph;
 	ParseFile file;
-	ParseUser u;
+	public static ParseUser u;
 	boolean go;
 	Context ctx;
-	
+	ActionBar actionbar;
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.view_snyps);
+		View view = this.getWindow().getDecorView();
+		
 		ctx = this;
 		adapter = new Adapter(this);
 		go = false;
 		u = FriendPage.getUserAgain();
+		actionbar = getActionBar();
+		actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setTitle(u.getUsername() + "'s Snyps");
+		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 		Log.d("username atsnyps",u.getUsername());
 		listview = (ListView)findViewById(R.id.imageList);
 		listview.setAdapter(adapter);
@@ -128,6 +137,10 @@ public class FriendSnyps extends Activity {
 	
 	public static ParseObject returnFriendPhoto(){
 		return ph;
+	}
+	
+	public static ParseUser getUserThirdTime(){
+		return u;
 	}
 }
 	

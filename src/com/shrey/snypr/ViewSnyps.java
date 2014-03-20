@@ -22,10 +22,12 @@ import com.shrey.util.MyAdapter;
 import com.shrey.util.PagerContainer;
 
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -44,6 +46,7 @@ import android.widget.TextView;
 
 
 public class ViewSnyps extends Activity{
+	ActionBar actionbar;
 	ParseImageView p;
 	ParseQuery<ParseObject> query = ParseQuery.getQuery("Photo");
 	MyAdapter adapter;
@@ -60,6 +63,11 @@ public class ViewSnyps extends Activity{
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.view_snyps);
+		View view = this.getWindow().getDecorView();
+		actionbar = getActionBar();
+		actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setTitle("Your Snyps");
+		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 		ph = null;
 		ctx = this;
 		//p = (ParseImageView)findViewById(R.id.snyp_preview_image);

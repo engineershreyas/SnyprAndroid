@@ -49,6 +49,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.location.Location;
@@ -157,6 +158,7 @@ GooglePlayServicesClient.OnConnectionFailedListener, com.google.android.gms.loca
 		View v = inflater.inflate(R.layout.fragment_camera, parent, false);
 		ctx = this.getActivity();
 		photoButton = (ImageButton) v.findViewById(R.id.camera_photo_button);
+		photoButton.setBackgroundColor(Color.TRANSPARENT);
 		locationClient = new LocationClient(this.getActivity().getApplicationContext(), this, this);
 		locationRequest = LocationRequest.create();
 

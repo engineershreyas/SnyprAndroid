@@ -6,33 +6,23 @@
 
     <Button
         style="@style/btnStyleOrange"
-        android:id="@+id/Add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/View"
-        android:layout_alignRight="@+id/View"
-        android:layout_centerVertical="true"
-        android:text="Follow" />
-
-    <Button
-        style="@style/btnStyleOrange"
-        android:id="@+id/View"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Add"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="38dp"
-        android:text="View Snyps" />
-
-    <TextView
-        android:id="@+id/name"
+        android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:gravity="center"
-        android:text=""
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_centerVertical="true"
+        android:text="My Friends" />
+
+    <Button
+        style="@style/btnStyleOrange"
+        android:id="@+id/button0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="59dp"
+        android:text="Find a Friend" />
 
 </RelativeLayout>

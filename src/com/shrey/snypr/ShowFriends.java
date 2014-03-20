@@ -12,9 +12,12 @@ import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.shrey.pojos.Photo;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,10 +34,13 @@ public class ShowFriends extends Activity {
 	Context ctx;
 	Adapter adapter;
 	ParseQuery<ParseUser> query = ParseUser.getQuery();
+	ActionBar actionbar;
 	public static ParseUser u;
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.friend_search);
+		View view = this.getWindow().getDecorView();
+        
 		l = (ListView)findViewById(R.id.friendList);
 		ctx = this;
 		username = FriendSearch.searchedUser();
@@ -93,6 +99,11 @@ public class ShowFriends extends Activity {
 			
 			
 		});
+		
+		actionbar = getActionBar();
+		actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setTitle("Users starting with " + username);
+		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 	}
 		
 		

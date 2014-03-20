@@ -6,6 +6,7 @@ import java.util.List;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -15,6 +16,7 @@ import com.shrey.pojos.Storage;
 import com.shrey.pojos.User;
 import com.shrey.snypr.FriendSearch;
 import com.shrey.snypr.GoToCamera;
+import com.shrey.snypr.GoToCameraTwo;
 import com.shrey.snypr.GoToFriends;
 import com.shrey.snypr.Intro;
 import com.shrey.snypr.Leaderboard;
@@ -30,11 +32,14 @@ import com.shrey.snypr.ViewSnyps;
 
 
 import android.os.Bundle;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -43,32 +48,43 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
+	ActionBar actionbar;
 	Button s,l,v,f,mf,sm,lb;
 	public static Context ctx;
 	TextView scoreT;
 	User u;
 	Register r;
 	String scoreInfo;
-	
+	ParseImageView profile;
 	private Photo photo;
 	ParseQuery<ParseObject> query = ParseQuery.getQuery("Photo");
 	ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Friend");
+	boolean go;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+         View view = this.getWindow().getDecorView();
          
-        
+        go = false;
         ctx = this;
         u = Storage.getInstance().user;
 		s = (Button)findViewById(R.id.snipe);
+		
 		l = (Button)findViewById(R.id.lo);
+		
 		v = (Button)findViewById(R.id.vw);
+		
 		f = (Button)findViewById(R.id.button0);
 		
+		
+		
 		sm = (Button)findViewById(R.id.mapButton);
+		
+	
 		lb = (Button)findViewById(R.id.lead);
+		
 		
 		Toast.makeText(ctx, "Welcome " + ParseUser.getCurrentUser().getUsername(), Toast.LENGTH_SHORT).show();
 		scoreT = (TextView)findViewById(R.id.textView1);
@@ -98,7 +114,7 @@ public class MainActivity extends Activity {
 					ParseUser.getCurrentUser().put("score", 0);
 					ParseUser.getCurrentUser().saveEventually();
 				}
-				
+				go = true;
 			}
 			
 		});
@@ -119,9 +135,35 @@ public class MainActivity extends Activity {
 			
 		});
 		
+		if(go){
+			query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
+			query.whereEqualTo("isProfilePicture", true);
+			query.addDescendingOrder("createdAt");
+			query.getFirstInBackground(new GetCallback<ParseObject>(){
+
+				@Override
+				public void done(ParseObject objs, ParseException e) {
+					// TODO Auto-generated method stub
+					if(objs!=null){
+						profile.setParseFile(objs.getParseFile("photo"));
+						profile.loadInBackground();
+					}
+					else{
+						Toast.makeText(ctx, "No profile picture!", Toast.LENGTH_SHORT).show();
+					}
+					
+				}
+				
+			});
+			
+			
+			
+		}
+		
 		scoreInfo = String.valueOf(ParseUser.getCurrentUser().getInt("score"));
 		Log.d("score",scoreInfo);
 		scoreT.setText("Your Score: " + scoreInfo);
+		scoreT.setTextColor(Color.RED);
 		s.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -178,6 +220,18 @@ public class MainActivity extends Activity {
 				ctx.startActivity(new Intent(ctx,GoToFriends.class));
 			}
 		});
+		
+		actionbar = getActionBar();
+		actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setTitle("Snypr");
+		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
+		
+		
+    }
+    
+    public void onResume(){
+    	super.onResume();
+    	scoreT.setText("Your Score: " + scoreInfo);
     }
 
 

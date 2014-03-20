@@ -7,10 +7,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import android.app.ActionBar;
 import android.app.Activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,7 +40,7 @@ public class Register extends Activity {
 
 	Button b;
 	EditText fn,ln,dob,e,u,p,cp;
-	
+	ActionBar actionbar;
 	Context ctx;
 	
 	Calendar c;
@@ -188,6 +191,10 @@ public class Register extends Activity {
 		}
 		
 		});
+		actionbar = getActionBar();
+		actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setTitle("Register");
+		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 	}
 		
 	

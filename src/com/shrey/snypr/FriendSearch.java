@@ -6,9 +6,12 @@ import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -29,9 +32,12 @@ public class FriendSearch extends Activity{
 	public static String username;
 	Button searchB;
 	ParseQueryAdapter<ParseUser> adapter;
+	ActionBar actionbar;
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.friendlistheader);
+		View view = this.getWindow().getDecorView();
+      
 		ctx = this;
 		go = false;
 		
@@ -54,6 +60,11 @@ public class FriendSearch extends Activity{
 				
 			}
 		});
+		
+		actionbar = getActionBar();
+		actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setTitle("Search for a friend");
+		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 		
 	}
 	

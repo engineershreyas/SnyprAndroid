@@ -9,10 +9,14 @@ import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.shrey.pojos.Friend;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,19 +25,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class FriendImageCloseup extends Activity {
+	ActionBar actionbar;
 	ParseImageView p;
 	Context ctx;
 	ParseObject ph;
 	TextView commentCount;
+	ParseUser u;
 	Button b,un;
+	Friend friend;
 	ParseObject like = new ParseObject("Like");
 	ParseQuery<ParseObject> query = ParseQuery.getQuery("Like");
 	ParseQuery<ParseUser> query1 = ParseUser.getQuery();
+	ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Friend");
 	boolean go;
+	boolean done;
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.icl);
+		View view = this.getWindow().getDecorView();
+        u = FriendSnyps.getUserThirdTime();
 		ctx = this;
+		done = false;
 		p = (ParseImageView)findViewById(R.id.snyp_preview_image1);
 		p.setVisibility(View.GONE);
 		
@@ -73,10 +85,11 @@ public class FriendImageCloseup extends Activity {
 						}
 					}
 				}
-				
+				done = true;
 			}
 			
 		});
+		
 		
 		
 		
@@ -142,7 +155,13 @@ public class FriendImageCloseup extends Activity {
 				refresh();
 				
 			}
+			
 		});
+		
+		actionbar = getActionBar();
+		actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setTitle(ParseUser.getCurrentUser().getUsername()+ "'s picture");
+		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 	}
 		
 

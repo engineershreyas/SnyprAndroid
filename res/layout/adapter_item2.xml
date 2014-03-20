@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="71dp"
         android:text="" 
-        android:layout_gravity = "center"
+        android:gravity = "center"
         android:textAppearance="?android:attr/textAppearanceLarge"
         
         />

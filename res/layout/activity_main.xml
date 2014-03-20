@@ -9,67 +9,77 @@
     tools:context=".MainActivity" >
 
     <Button
-        android:id="@+id/snipe"
+        style="@style/btnStyleOrange"
+        android:id="@+id/lead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/textView1"
-        android:layout_marginTop="58dp"
-        android:text="Snipe" />
+        android:layout_alignLeft="@+id/snipe"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="18dp"
+        android:text="Leaderboard" />
 
     <TextView
+        
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lead"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
+        android:layout_alignBaseline="@+id/lead"
+        android:layout_alignBottom="@+id/lead"
+        android:layout_alignRight="@+id/snipe"
         android:text="Your Score: "
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
         android:id="@+id/vw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/snipe"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/snipe"
-        android:text="View Snyps" />
-
-    <Button
-        android:id="@+id/lead"
+        style="@style/btnStyleOrange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/snipe"
         android:layout_marginTop="33dp"
-        android:text="Leader Board" />
-
-    <Button
-        android:id="@+id/button0"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/mapButton"
-        android:layout_alignLeft="@+id/vw"
-        android:layout_alignRight="@+id/vw"
-        android:text="Friends" />
-
-    <Button
-        android:id="@+id/mapButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/lo"
-        android:layout_alignLeft="@+id/button0"
-        android:layout_alignRight="@+id/button0"
-        android:text="Snyp Map" />
+        android:text="View Snyps" />
 
     <Button
         android:id="@+id/lo"
+        style="@style/btnStyleOrange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:text="Log Out" />
+
+    <Button
+        android:id="@+id/snipe"
+        style="@style/btnStyleOrange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/vw"
+        android:layout_below="@+id/lead"
+        android:layout_marginTop="14dp"
+        android:text="Snipe" />
+
+    <Button
+        android:id="@+id/button0"
+        style="@style/btnStyleOrange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/vw"
+        android:layout_alignRight="@+id/vw"
+        android:layout_below="@+id/vw"
+        android:layout_marginTop="27dp"
+        android:text="Friends" />
+
+    <Button
+        android:id="@+id/mapButton"
+        style="@style/btnStyleOrange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/button0"
+        android:layout_alignRight="@+id/button0"
+        android:layout_below="@+id/button0"
+        android:layout_marginTop="23dp"
+        android:text="Snyp Map" />
 
 </RelativeLayout>
