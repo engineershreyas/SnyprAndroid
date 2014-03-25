@@ -2,6 +2,7 @@ package com.shrey.snypr;
 
 import java.util.List;
 
+import com.example.snypr.MainActivity;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -20,6 +21,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -45,7 +49,7 @@ public class ShowFriends extends Activity {
 		ctx = this;
 		username = FriendSearch.searchedUser();
 		if(username == null){
-			ctx.startActivity(new Intent(ctx,FriendSearch.class));
+			ctx.startActivity(new Intent(ctx,MainActivity.class));
 		}
 		else{
 			Log.d("search",username);
@@ -58,6 +62,7 @@ public class ShowFriends extends Activity {
 				// TODO Auto-generated method stub
 				ParseQuery query = ParseUser.getQuery();
 				query.whereStartsWith("username", username);
+				query.whereNotEqualTo("username", ParseUser.getCurrentUser().getUsername());
 				
 				return query;
 			}
@@ -140,6 +145,29 @@ public class ShowFriends extends Activity {
 	public static ParseUser getUser(){
 		return u;
 	}
+	
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    // Inflate the menu items for use in the action bar
+	    getMenuInflater().inflate(R.menu.main, menu);
+	     super.onCreateOptionsMenu(menu);
+	     
+	     return true;
+	}
+
+	
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        
+	        case R.id.action_gohome:
+	        	ctx.startActivity(new Intent(ctx, MainActivity.class));
+	            return true;
+	       
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+	
 
 	}
 

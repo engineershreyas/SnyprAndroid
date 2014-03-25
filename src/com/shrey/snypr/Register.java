@@ -23,10 +23,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.parse.Parse;
 import com.parse.ParseAnalytics;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import com.shrey.pojos.Score;
 import com.shrey.pojos.User;
 import com.shrey.snypr.R;
 import com.shrey.snypr.SignIn;
@@ -52,12 +54,14 @@ public class Register extends Activity {
 	boolean nomatch = false;
 	boolean go = false;
 	boolean boo = true;
-	ParseObject gameScore = new ParseObject("Score");
+	Score gameScore;
+	ParseInstallation installation;
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.register);
 		ctx = this;
 		c = Calendar.getInstance();
+		gameScore = new Score();
 		
 		
 		b= (Button)findViewById(R.id.r1);
@@ -68,7 +72,8 @@ public class Register extends Activity {
 		u = (EditText)findViewById(R.id.us);
 		p = (EditText)findViewById(R.id.pd);
 		cp = (EditText)findViewById(R.id.cp);
-		
+		ParseInstallation.getCurrentInstallation().saveEventually();
+		installation = ParseInstallation.getCurrentInstallation();
 		
 		
 		b.setOnClickListener(new View.OnClickListener() {
@@ -139,10 +144,11 @@ public class Register extends Activity {
 					user.setuserName(un);
 					user.setpassWord(pw);
 					user.seteMail(em);
-					gameScore.put("username", un);
-	                gameScore.put("score",0);
+					gameScore.addUsername(un);
+	                gameScore.addScore(0);
 	                gameScore.saveInBackground();
-					
+					installation.put("username", un);
+					installation.saveEventually();
 					user.signUpInBackground(new SignUpCallback(){
 
 						@Override

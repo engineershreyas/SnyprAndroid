@@ -3,15 +3,18 @@ package com.example.snypr;
 import java.util.List;
 
 
+
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseImageView;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import com.shrey.pojos.Photo;
+import com.shrey.pojos.Score;
 import com.shrey.pojos.Storage;
 import com.shrey.pojos.User;
 import com.shrey.snypr.FriendSearch;
@@ -21,7 +24,8 @@ import com.shrey.snypr.GoToFriends;
 import com.shrey.snypr.Intro;
 import com.shrey.snypr.Leaderboard;
 import com.shrey.snypr.MyFriends;
-import com.shrey.snypr.Picture;
+import com.shrey.snypr.SplashScreen;
+
 import com.shrey.snypr.R;
 import com.shrey.snypr.Register;
 import com.shrey.snypr.SignIn;
@@ -55,20 +59,30 @@ public class MainActivity extends Activity {
 	User u;
 	Register r;
 	String scoreInfo;
+	int x;
 	ParseImageView profile;
 	private Photo photo;
 	ParseQuery<ParseObject> query = ParseQuery.getQuery("Photo");
 	ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Friend");
+	ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+	ParseQuery<Score> scoreQuery = ParseQuery.getQuery("Score");
+	Score scoreObject;
 	boolean go;
+	ParseInstallation installation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-         View view = this.getWindow().getDecorView();
-         
-        go = false;
         ctx = this;
+        if(ParseUser.getCurrentUser() == null){
+        	ctx.startActivity(new Intent(ctx,Intro.class));
+        	Toast.makeText(ctx, "sorry, session expired!", Toast.LENGTH_SHORT).show();
+        }
+         View view = this.getWindow().getDecorView();
+         scoreObject = SplashScreen.getScoreObject();
+        go = false;
+        
         u = Storage.getInstance().user;
 		s = (Button)findViewById(R.id.snipe);
 		
@@ -87,20 +101,23 @@ public class MainActivity extends Activity {
 		
 		
 		Toast.makeText(ctx, "Welcome " + ParseUser.getCurrentUser().getUsername(), Toast.LENGTH_SHORT).show();
-		scoreT = (TextView)findViewById(R.id.textView1);
+		scoreT = (TextView)findViewById(R.id.fp);
+	
 		query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
 		query.findInBackground(new FindCallback<ParseObject>(){
 
 			@Override
-			public void done(List<ParseObject> objs, ParseException arg1) {
+			public void done(final List<ParseObject> photos, ParseException arg1) {
 				// TODO Auto-generated method stub
-				if(objs!=null){
-				int x = 0;
-				for(int i = 0; i<objs.size();i++){
-					int s = objs.get(i).getInt("likes");
+				if(photos!=null){
+				 x = 0;
+				for(int i = 0; i<photos.size();i++){
+					
+					int s = photos.get(i).getInt("likes");
 					Log.d("likes",String.valueOf(s));
 					x+=s;
 					Log.d("total score",String.valueOf(x));
+					
 					
 					
 					
@@ -109,60 +126,36 @@ public class MainActivity extends Activity {
 				ParseUser.getCurrentUser().put("score", x);
 				ParseUser.getCurrentUser().saveEventually();
 				
+				scoreInfo = String.valueOf(ParseUser.getCurrentUser().getInt("score"));
+				Log.d("scoreInfo",scoreInfo);
+				scoreT.setText("Your Score: " + scoreInfo);
+				
 				}
 				else{
 					ParseUser.getCurrentUser().put("score", 0);
 					ParseUser.getCurrentUser().saveEventually();
-				}
-				go = true;
-			}
-			
-		});
-		query1.whereEqualTo("friendname", ParseUser.getCurrentUser().getUsername());
-		query1.findInBackground(new FindCallback<ParseObject>(){
-
-			@Override
-			public void done(List<ParseObject> objs, ParseException arg1) {
-				// TODO Auto-generated method stub
-				if(objs!=null){
-					for(int i = 0;i<objs.size();i++){
-						objs.get(i).put("friendScore",ParseUser.getCurrentUser().getInt("score"));
-						objs.get(i).saveEventually();
-					}
-				}
-				
-			}
-			
-		});
-		
-		if(go){
-			query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
-			query.whereEqualTo("isProfilePicture", true);
-			query.addDescendingOrder("createdAt");
-			query.getFirstInBackground(new GetCallback<ParseObject>(){
-
-				@Override
-				public void done(ParseObject objs, ParseException e) {
-					// TODO Auto-generated method stub
-					if(objs!=null){
-						profile.setParseFile(objs.getParseFile("photo"));
-						profile.loadInBackground();
-					}
-					else{
-						Toast.makeText(ctx, "No profile picture!", Toast.LENGTH_SHORT).show();
-					}
+					
+					scoreInfo = String.valueOf(ParseUser.getCurrentUser().getInt("score"));
+					Log.d("scoreInfo",scoreInfo);
+					scoreT.setText("Your Score: " + scoreInfo);
 					
 				}
 				
-			});
+			}
 			
-			
-			
-		}
+		});
 		
-		scoreInfo = String.valueOf(ParseUser.getCurrentUser().getInt("score"));
-		Log.d("score",scoreInfo);
-		scoreT.setText("Your Score: " + scoreInfo);
+		
+		
+		//go = true;
+
+		
+		
+		
+			//Log.d("mission","failed");
+			//Toast.makeText(ctx, "mission failed", Toast.LENGTH_SHORT).show();
+		
+		
 		scoreT.setTextColor(Color.RED);
 		s.setOnClickListener(new View.OnClickListener() {
 			
@@ -229,9 +222,52 @@ public class MainActivity extends Activity {
 		
     }
     
-    public void onResume(){
-    	super.onResume();
-    	scoreT.setText("Your Score: " + scoreInfo);
+    public void onRestart(){
+    	super.onRestart();
+    	query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
+		query.findInBackground(new FindCallback<ParseObject>(){
+
+			@Override
+			public void done(List<ParseObject> objs, ParseException arg1) {
+				// TODO Auto-generated method stub
+				if(objs!=null){
+				int x = 0;
+				for(int i = 0; i<objs.size();i++){
+					int s = objs.get(i).getInt("likes");
+					Log.d("likes",String.valueOf(s));
+					x+=s;
+					Log.d("total score",String.valueOf(x));
+					go = true;
+					
+					
+				}
+				//Log.d("score",String.valueOf(x));
+				ParseUser.getCurrentUser().put("score", x);
+				ParseUser.getCurrentUser().saveEventually();
+				scoreInfo = String.valueOf(ParseUser.getCurrentUser().getInt("score"));
+				Log.d("scoreInfo",scoreInfo);
+				scoreT.setText("Your Score: " + scoreInfo);
+				
+				}
+				else{
+					ParseUser.getCurrentUser().put("score", 0);
+					ParseUser.getCurrentUser().saveEventually();
+					scoreInfo = String.valueOf(ParseUser.getCurrentUser().getInt("score"));
+					Log.d("scoreInfo",scoreInfo);
+					scoreT.setText("Your Score: " + scoreInfo);
+					go = true;
+				}
+				
+			}
+			
+		});
+		
+
+		
+		
+    	
+		scoreT.setTextColor(Color.RED);
+    	
     }
 
 

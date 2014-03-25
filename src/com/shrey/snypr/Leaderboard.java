@@ -1,9 +1,16 @@
 package com.shrey.snypr;
 
+import java.util.List;
+
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.shrey.pojos.Friend;
+import com.shrey.pojos.Photo;
+import com.shrey.pojos.Score;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -12,6 +19,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -30,6 +38,8 @@ public class Leaderboard extends Activity {
 	Context ctx;
 	boolean go;
 	ActionBar actionbar;
+	int score;
+	int s;
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.leaderboard);
@@ -79,18 +89,21 @@ public class Leaderboard extends Activity {
 		});
 	}
 	
-	private class Adapter extends ParseQueryAdapter<ParseUser>{
-
+	private class Adapter extends ParseQueryAdapter<Score>{
+		
 		public Adapter(Context context) {
-			super(context, new ParseQueryAdapter.QueryFactory<ParseUser>() {
+			super(context, new ParseQueryAdapter.QueryFactory<Score>() {
 
 				@Override
-				public ParseQuery<ParseUser> create() {
-					ParseQuery query1 = ParseQuery.getQuery("Friend");
-					ParseQuery query = ParseUser.getQuery();
-					query.addDescendingOrder("score");
+				public ParseQuery<Score> create() {
+					final ParseQuery<Score> query1 = ParseQuery.getQuery("Score");
+					//ParseQuery<ParseUser> query = ParseUser.getQuery();
+					//query.addDescendingOrder("score");
+					query1.addDescendingOrder("scoreNumber");
 					
-					return query;
+					
+					
+					return query1;
 				}
 				
 				
@@ -98,15 +111,20 @@ public class Leaderboard extends Activity {
 			// TODO Auto-generated constructor stub
 		}
 		
-		public View getItemView(ParseUser user, View v, ViewGroup parent){
+		public View getItemView(final Score score, View v, ViewGroup parent){
+			s=0;
 			if(v == null){
 				v = View.inflate(getApplicationContext(), R.layout.adapter_item2, null);
 			}
 			
-			super.getItemView(user,v,parent);
+			super.getItemView(score,v,parent);
 			
-			TextView t = (TextView)v.findViewById(R.id.viewUserName);
-			t.setText("Username: " + user.getUsername() + "\nScore: " +String.valueOf( user.getInt("score")));
+			//ParseQuery<Photo> photoQuery = ParseQuery.getQuery("Photo");
+			final TextView t = (TextView)v.findViewById(R.id.viewUserName);
+			
+			
+			
+			t.setText("Username: " + score.getUsername() + "\nScore: " +String.valueOf(score.getScore()));
 			t.setTextColor(Color.BLACK);
 			
 			return v;
@@ -134,7 +152,8 @@ public class Leaderboard extends Activity {
 			// TODO Auto-generated constructor stub
 		}
 		
-		public View getItemView(Friend friend, View v, ViewGroup parent){
+		public View getItemView(final Friend friend, View v, ViewGroup parent){
+			int s = 0;
 			if(v == null){
 				v = View.inflate(getApplicationContext(), R.layout.adapter_item2, null);
 			}
@@ -142,6 +161,23 @@ public class Leaderboard extends Activity {
 			super.getItemView(friend,v,parent);
 			
 			TextView t = (TextView)v.findViewById(R.id.viewUserName);
+			ParseQuery<ParseObject> query = ParseQuery.getQuery("Score");
+			query.findInBackground(new FindCallback<ParseObject>(){
+
+				@Override
+				public void done(List<ParseObject> objects, ParseException arg1) {
+					// TODO Auto-generated method stub
+					for(int i = 0;i<objects.size();i++){
+						if(objects.get(i).getString("username").equals(friend.getString("friendname"))){
+							friend.put("friendScore", objects.get(i).getInt("scoreNumber"));
+							friend.saveEventually();
+						}
+					}
+				}
+
+				
+				
+			});
 			t.setText("Username: " + friend.getString("friendname") + "\nScore: " +String.valueOf( friend.getInt("friendScore")));
 			t.setTextColor(Color.BLACK);
 			

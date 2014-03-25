@@ -2,6 +2,7 @@ package com.shrey.snypr;
 
 import java.util.List;
 
+import com.example.snypr.MainActivity;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -19,6 +20,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -28,7 +32,7 @@ public class MyFriendPage extends Activity {
 	public static ParseObject friend;
 	TextView n;
 	Context ctx;
-	Button f,v;
+	Button f,v,unf;
 	ActionBar actionbar;
 	ParseUser friendUser;
 	int friendscore;
@@ -39,6 +43,9 @@ public void onCreate(Bundle savedInstanceState){
 		View view = this.getWindow().getDecorView();
         
 		friend = MyFriends.getFriend();
+		if(friend == null){
+			ctx.startActivity(new Intent(ctx,MainActivity.class));
+		}
 		Log.d("friendname in my friend page",friend.getString("friendname"));
 		n = (TextView)findViewById(R.id.name);
 		actionbar = getActionBar();
@@ -58,12 +65,16 @@ public void onCreate(Bundle savedInstanceState){
 						friendscore+= objs.get(i).getInt("likes");
 						Log.d("score of friend",String.valueOf(friendscore));
 						n.setText("Score: " + String.valueOf(friendscore));
+						friend.put("friendScore", friendscore);
+						friend.saveEventually();
 					}
 				}
 				else{
 					friendscore = 0;
 					Log.d("score of friend","is zero");
 					n.setText("Score: " + String.valueOf(friendscore));
+					friend.put("friendScore", friendscore);
+					friend.saveEventually();
 				}
 				
 			}
@@ -76,12 +87,33 @@ public void onCreate(Bundle savedInstanceState){
 		
 		f = (Button)findViewById(R.id.Add);
 		v = (Button)findViewById(R.id.View);
+		unf = (Button)findViewById(R.id.unfollow);
+		unf.setVisibility(View.VISIBLE);
 		f.setEnabled(false);
 		f.setVisibility(View.INVISIBLE);
 		
 		if(friend == null){
 			ctx.startActivity(new Intent(ctx,MyFriends.class));
 		}
+		
+		unf.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(friend!=null){
+	                try {
+						friend.delete();
+						//friend.saveEventually();
+						Toast.makeText(ctx, "Unfollowed!", Toast.LENGTH_SHORT).show();
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						Toast.makeText(ctx, e.getMessage(), Toast.LENGTH_SHORT).show();
+					}
+	                }
+				ctx.startActivity(new Intent(ctx,MyFriends.class));
+			}
+		});
 		
 v.setOnClickListener(new View.OnClickListener() {
 			
@@ -111,12 +143,16 @@ query.whereEqualTo("username",friend.getString("friendname"));
 						friendscore+= objs.get(i).getInt("likes");
 						Log.d("score of friend",String.valueOf(friendscore));
 						n.setText("Score: " + String.valueOf(friendscore));
+						friend.put("friendScore", friendscore);
+						friend.saveEventually();
 					}
 				}
 				else{
 					friendscore = 0;
 					Log.d("score of friend","is zero");
 					n.setText("Score: " + String.valueOf(friendscore));
+					friend.put("friendScore", friendscore);
+					friend.saveEventually();
 				}
 				
 			}
@@ -128,6 +164,28 @@ query.whereEqualTo("username",friend.getString("friendname"));
 	
 	public static ParseObject getFriendAgain(){
 		return friend;
+	}
+	
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    // Inflate the menu items for use in the action bar
+	    getMenuInflater().inflate(R.menu.main, menu);
+	     super.onCreateOptionsMenu(menu);
+	     
+	     return true;
+	}
+
+	
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        
+	        case R.id.action_gohome:
+	        	ctx.startActivity(new Intent(ctx, MainActivity.class));
+	            return true;
+	       
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 
 }

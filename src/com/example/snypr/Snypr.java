@@ -3,8 +3,10 @@ package com.example.snypr;
 import com.parse.Parse;
 import com.parse.ParseAnalytics;
 import com.parse.ParseObject;
+import com.parse.PushService;
 import com.shrey.pojos.Friend;
 import com.shrey.pojos.Photo;
+import com.shrey.pojos.Score;
 import com.shrey.pojos.SnypPoint;
 import com.shrey.pojos.User;
 
@@ -25,8 +27,10 @@ public class Snypr extends Application {
 		ParseObject.registerSubclass(Photo.class);
 		ParseObject.registerSubclass(Friend.class);
 		ParseObject.registerSubclass(SnypPoint.class);
+		ParseObject.registerSubclass(Score.class);
 		Parse.initialize(this, "nFyMh0pa2lxBJrgJNTEzRhPEar4DNSjLDEEgua7Y", "XeSrJIOg5mlMbO8zdytP9Z5jNHYLSG0SDhn4zu77");
 		preferences = getSharedPreferences("com.example.snypr", Context.MODE_PRIVATE);
+		PushService.setDefaultPushCallback(this, MainActivity.class);
 	}
 	
 	 public static float getSearchDistance() {

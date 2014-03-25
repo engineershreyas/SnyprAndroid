@@ -4,26 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <Button
-        style="@style/btnStyleOrange"
-        android:id="@+id/Add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/View"
-        android:layout_alignRight="@+id/View"
-        android:layout_centerVertical="true"
-        android:text="Follow" />
-
-    <Button
-        style="@style/btnStyleOrange"
-        android:id="@+id/View"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Add"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="38dp"
-        android:text="View Snyps" />
-
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
@@ -34,5 +14,38 @@
         android:gravity="center"
         android:text=""
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/Add"
+        style="@style/btnStyleOrange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/View"
+        android:layout_alignRight="@+id/View"
+        android:layout_below="@+id/name"
+        android:layout_marginTop="110dp"
+        android:text="Follow" />
+
+    <Button
+        android:id="@+id/View"
+        style="@style/btnStyleOrange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="104dp"
+        android:text="View Snyps" />
+
+    <Button
+        android:id="@+id/unfollow"
+        style="@style/btnStyleOrange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/View"
+        android:layout_alignLeft="@+id/View"
+        android:layout_alignRight="@+id/View"
+        android:layout_marginBottom="36dp"
+        android:visibility = "invisible"
+        android:text="Unfollow" />
 
 </RelativeLayout>

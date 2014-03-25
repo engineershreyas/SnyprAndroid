@@ -2,6 +2,7 @@ package com.shrey.snypr;
 
 import java.util.List;
 
+import com.example.snypr.MainActivity;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -10,14 +11,20 @@ import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.shrey.pojos.Score;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -32,6 +39,7 @@ public class ImageCloseup extends Activity{
 	Context ctx;
 	ParseQuery<ParseObject> query = ParseQuery.getQuery("Photo");
 	ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Like");
+	ParseQuery<Score> scoreQuery = ParseQuery.getQuery("Score");
 	TextView commentCount;
 	ActionBar actionbar;
 	public void onCreate(Bundle savedInstanceState){
@@ -46,6 +54,9 @@ public class ImageCloseup extends Activity{
 		
 		
 			ph = ViewSnyps.returnPhoto();
+			if(ph == null){
+				ctx.startActivity(new Intent(ctx,MainActivity.class));
+			}
 		
 		
 		
@@ -71,6 +82,58 @@ public class ImageCloseup extends Activity{
 				
 			}
 			
+		});
+		p.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				AlertDialog.Builder alert = new AlertDialog.Builder(ctx);
+				alert.setTitle("Delete Photo?");
+				alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						try {
+							scoreQuery.whereEqualTo("username", ph.getString("username"));
+							scoreQuery.findInBackground(new FindCallback<Score>(){
+
+								@Override
+								public void done(List<Score> scores,
+										ParseException e) {
+									// TODO Auto-generated method stub
+									if(e == null)
+									for(int i = 0; i < scores.size();i++){
+										scores.get(i).increment("scoreNumber",(-1*ph.getInt("likes")));
+									}
+									else{
+										Toast.makeText(ctx, e.getMessage(), Toast.LENGTH_SHORT).show();
+									}
+								}
+								
+							});
+							ph.delete();
+							Toast.makeText(ctx, "Picture deleted!",Toast.LENGTH_SHORT ).show();
+							ctx.startActivity(new Intent(ctx,MainActivity.class));
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							Toast.makeText(ctx, e.getMessage(), Toast.LENGTH_SHORT).show();
+						}
+						
+						
+					}
+				});
+				
+				alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						
+						//do nothing
+					}
+				});
+				alert.create().show();
+			}
 		});
 		b.setOnClickListener(new View.OnClickListener() {
 			
@@ -114,6 +177,26 @@ public class ImageCloseup extends Activity{
 	    
 	    startActivity(intent);
 	}
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    // Inflate the menu items for use in the action bar
+	    getMenuInflater().inflate(R.menu.main, menu);
+	     super.onCreateOptionsMenu(menu);
+	     
+	     return true;
+	}
+
 	
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        
+	        case R.id.action_gohome:
+	        	ctx.startActivity(new Intent(ctx, MainActivity.class));
+	            return true;
+	       
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
 
 }

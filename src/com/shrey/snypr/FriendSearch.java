@@ -2,6 +2,7 @@ package com.shrey.snypr;
 
 
 
+import com.example.snypr.MainActivity;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
@@ -15,6 +16,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -78,4 +82,26 @@ public class FriendSearch extends Activity{
 			return null;
 		}
 	}
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    // Inflate the menu items for use in the action bar
+	    getMenuInflater().inflate(R.menu.main, menu);
+	     super.onCreateOptionsMenu(menu);
+	     
+	     return true;
+	}
+
+	
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        
+	        case R.id.action_gohome:
+	        	ctx.startActivity(new Intent(ctx, MainActivity.class));
+	            return true;
+	       
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+	
 }

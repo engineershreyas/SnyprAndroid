@@ -2,6 +2,7 @@ package com.shrey.snypr;
 
 import java.util.List;
 
+import com.example.snypr.MainActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -14,12 +15,19 @@ import com.shrey.util.MySecondAdapter;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -36,6 +44,7 @@ public class MyFriends extends Activity {
 	ParseQuery<ParseObject> query = ParseQuery.getQuery("Friend");
 	MySecondAdapter adapter1;
 	ActionBar actionbar;
+	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.friend_search);
@@ -49,7 +58,8 @@ public class MyFriends extends Activity {
 			@Override
 			public ParseQuery<Friend> create() {
 				ParseQuery<Friend> query = ParseQuery.getQuery("Friend");
-				query.whereEqualTo("username", ParseUser.getCurrentUser());
+				query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
+				query.addAscendingOrder("friendname");
 				
 				return query;
 			}
@@ -68,26 +78,23 @@ public class MyFriends extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, final int position,
 					long arg3) {
 				// TODO Auto-generated method stub
+				
 				query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
-				query.findInBackground(new FindCallback<ParseObject>(){
+                query.findInBackground(new FindCallback<ParseObject>(){
 
 					@Override
 					public void done(List<ParseObject> friends, ParseException arg1) {
+						// TODO Auto-generated method stub
 						
-						if(friends!=null){
-						friend = friends.get(position);
-						ctx.startActivity(new Intent(ctx,MyFriendPage.class));
-						//Log.d("username",u.getUsername());
-						}
-						else{
-							Toast.makeText(ctx, "Nothing here!", Toast.LENGTH_SHORT).show();
-						}
+							friend = friends.get(position);
 						
 					}
-					
-				});
+                	
+                });
+                ctx.startActivity(new Intent(ctx,MyFriendPage.class));
 			}
 		});
+		
 		
 		
 	}
@@ -126,6 +133,38 @@ public class MyFriends extends Activity {
 	
 	public static ParseObject getFriend(){
 		return friend;
+	}
+	
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    // Inflate the menu items for use in the action bar
+	    getMenuInflater().inflate(R.menu.main, menu);
+	     super.onCreateOptionsMenu(menu);
+	     
+	     return true;
+	}
+
+	
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        
+	        case R.id.action_gohome:
+	        	ctx.startActivity(new Intent(ctx, MainActivity.class));
+	            return true;
+	       
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	    
+	    
+	}
+	private void refresh(){
+		Intent intent = getIntent();
+	    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+	    
+	    finish();
+	    
+	    startActivity(intent);
 	}
 }
 

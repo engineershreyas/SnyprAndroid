@@ -684,19 +684,7 @@ GooglePlayServicesClient.OnConnectionFailedListener, com.google.android.gms.loca
 	    return builder.build();
 	  }
 
-	  @Override
-	  public boolean onCreateOptionsMenu(Menu menu) {
-	    // Inflate the menu; this adds items to the action bar if it is present.
-	    getMenuInflater().inflate(R.menu.main, menu);
-
-	    menu.findItem(R.id.action_settings).setOnMenuItemClickListener(new OnMenuItemClickListener() {
-	      public boolean onMenuItemClick(MenuItem item) {
-	        
-	        return true;
-	      }
-	    });
-	    return true;
-	  }
+	  
 
 	  /*
 	   * Show a dialog returned by Google Play services for the connection error code

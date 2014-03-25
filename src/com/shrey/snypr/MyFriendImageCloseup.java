@@ -2,6 +2,9 @@ package com.shrey.snypr;
 
 import java.util.List;
 
+
+
+import com.example.snypr.MainActivity;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -12,6 +15,7 @@ import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.shrey.pojos.Friend;
 import com.shrey.pojos.Photo;
+import com.shrey.pojos.Score;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -21,6 +25,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -35,9 +42,12 @@ public class MyFriendImageCloseup extends Activity {
 	Button b,un;
 	Friend friend;
 	ParseObject like = new ParseObject("Like");
+	//ParseObject scoreObject = new ParseObject("Score");
+	Score scoreObject;
 	ParseQuery<ParseObject> query = ParseQuery.getQuery("Like");
 	ParseQuery<ParseUser> query1 = ParseUser.getQuery();
 	ParseQuery<Friend> query2 = ParseQuery.getQuery("Friend");
+	ParseQuery<Score> scoreQuery = ParseQuery.getQuery("Score");
 	boolean go;
 	boolean done;
 	public void onCreate(Bundle savedInstanceState){
@@ -49,7 +59,7 @@ public class MyFriendImageCloseup extends Activity {
 		p = (ParseImageView)findViewById(R.id.snyp_preview_image1);
 		ph = MyFriendSnyps.returnPhoto();
 		if(ph == null){
-			ctx.startActivity(new Intent(ctx,MyFriends.class));
+			ctx.startActivity(new Intent(ctx,MainActivity.class));
 		}
 		
 		b = (Button)findViewById(R.id.likeButton);
@@ -117,6 +127,28 @@ public class MyFriendImageCloseup extends Activity {
 									friend = objs.get(i);
 									friend.increment("friendScore",1);
 									friend.saveEventually();
+									scoreQuery.whereEqualTo("username", friend.getString("friendname"));
+									Log.d("for this p",friend.getString("friendname"));
+									scoreQuery.findInBackground(new FindCallback<Score>(){
+
+										@Override
+										public void done(List<Score> scores,
+												ParseException e) {
+											// TODO Auto-generated method stub
+											if(e == null){
+											for(int i = 0; i<scores.size();i++){
+												scoreObject = scores.get(i);
+												scoreObject.addScore(friend.getInt("friendScore"));
+												scoreObject.saveEventually();
+											}
+											}
+											else{
+												Toast.makeText(ctx, e.getMessage(), Toast.LENGTH_SHORT).show();
+											}
+										}
+										
+									});
+									
 								}
 							}
 							
@@ -167,7 +199,7 @@ public class MyFriendImageCloseup extends Activity {
 					
 				});
 				
-				if(done){
+				
 					query2.whereEqualTo("friendname", ph.getString("username"));
 					query2.findInBackground(new FindCallback<Friend>(){
 
@@ -179,13 +211,35 @@ public class MyFriendImageCloseup extends Activity {
 									friend = objs.get(i);
 									friend.increment("friendScore",-1);
 									friend.saveEventually();
+									scoreQuery.findInBackground(new FindCallback<Score>(){
+
+										@Override
+										public void done(List<Score> scores,
+												ParseException e) {
+											// TODO Auto-generated method stub
+											if(e == null){
+												for(int i = 0;i<scores.size();i++){
+													scoreObject = scores.get(i);
+													scoreObject.increment("scoreNumber",-1);
+													scoreObject.saveEventually();
+												}
+											}
+											else{
+												Toast.makeText(ctx, e.getMessage(), Toast.LENGTH_SHORT).show();
+											}
+											
+										}
+										
+									});
+									
+									
 								}
 							}
 							
 						}
 						
 					});
-				}
+				
 				
 				
 				go = false;
@@ -223,6 +277,27 @@ public class MyFriendImageCloseup extends Activity {
 	}
 	
 	
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    // Inflate the menu items for use in the action bar
+	    getMenuInflater().inflate(R.menu.main, menu);
+	     super.onCreateOptionsMenu(menu);
+	     
+	     return true;
+	}
+
+	
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        
+	        case R.id.action_gohome:
+	        	ctx.startActivity(new Intent(ctx, MainActivity.class));
+	            return true;
+	       
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
 	
 	
 }

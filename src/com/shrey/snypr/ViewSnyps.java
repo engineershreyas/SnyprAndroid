@@ -6,6 +6,7 @@ import java.util.List;
 
 
 
+import com.example.snypr.MainActivity;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
@@ -20,6 +21,7 @@ import com.parse.ParseUser;
 import com.shrey.pojos.Photo;
 import com.shrey.util.MyAdapter;
 import com.shrey.util.PagerContainer;
+import com.shrey.util.PicassoAdapter;
 
 
 import android.app.ActionBar;
@@ -35,8 +37,12 @@ import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -50,6 +56,7 @@ public class ViewSnyps extends Activity{
 	ParseImageView p;
 	ParseQuery<ParseObject> query = ParseQuery.getQuery("Photo");
 	MyAdapter adapter;
+	//PicassoAdapter adapter;
 	ParseObject[] o;
 	List<ParseFile> pf = new ArrayList<ParseFile>();
 	ParseFile[] pfa;
@@ -60,6 +67,7 @@ public class ViewSnyps extends Activity{
 	ListView listview;
 	ParseFile parseFile;
 	QueryFactory<ParseObject> pqf;
+	List<ParseFile> parseList = new ArrayList<ParseFile>();
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.view_snyps);
@@ -73,9 +81,23 @@ public class ViewSnyps extends Activity{
 		//p = (ParseImageView)findViewById(R.id.snyp_preview_image);
 		//p.setVisibility(View.GONE);
 		
-		adapter = new MyAdapter(this);
+		/*
 		query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
-		
+		query.findInBackground(new FindCallback<ParseObject>(){
+
+			@Override
+			public void done(List<ParseObject> photos, ParseException arg1) {
+				// TODO Auto-generated method stub
+				if(photos!=null){
+					for(int i = 0;i<photos.size();i++){
+						parseList.add(photos.get(i).getParseFile("photos"));
+					}
+				}
+			}
+			
+		});
+		*/
+		adapter = new MyAdapter(this);
 		
 		
 		listview = (ListView)findViewById(R.id.imageList);
@@ -100,6 +122,7 @@ public class ViewSnyps extends Activity{
 							go = true;
 							}
 							ctx.startActivity(new Intent(ctx,ImageCloseup.class));
+							
 						}
 						
 					}
@@ -133,44 +156,6 @@ public class ViewSnyps extends Activity{
 		
 		
 		
-		/*query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
-		query.findInBackground( new FindCallback<ParseObject>(){
-
-			@Override
-			public void done(List<ParseObject> objs, ParseException e) {
-				// TODO Auto-generated method stub
-				if(e == null){
-					ph = objs.get(0);
-					Log.d("uh",ph.getParseFile("photo").getName());
-					file = ph.getParseFile("photo");
-					go = true;
-					p.setParseFile(file);
-					p.loadInBackground(new GetDataCallback(){
-
-						@Override
-						public void done(byte[] arg0, ParseException arg1) {
-							// TODO Auto-generated method stub
-							if(arg1 == null){
-								p.setVisibility(View.VISIBLE);
-								p.setOnClickListener(new View.OnClickListener() {
-									
-									@Override
-									public void onClick(View v) {
-										ctx.startActivity(new Intent(ctx,ImageCloseup.class));
-										
-									}
-								});
-							}
-						}
-						
-					});
-				}
-				
-			}
-			
-		});
-		
-	
 		
 		
 		
@@ -182,8 +167,13 @@ public class ViewSnyps extends Activity{
 		
 		
 		
-		*/
-		}
+		
+		
+	}
+		
+		
+		
+		
 		
 	
 		
@@ -197,7 +187,27 @@ public class ViewSnyps extends Activity{
 		
 	}
 	
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    // Inflate the menu items for use in the action bar
+	    getMenuInflater().inflate(R.menu.main, menu);
+	     super.onCreateOptionsMenu(menu);
+	     
+	     return true;
+	}
+
 	
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        
+	        case R.id.action_gohome:
+	        	ctx.startActivity(new Intent(ctx, MainActivity.class));
+	            return true;
+	       
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
 
 	
 	

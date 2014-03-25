@@ -2,6 +2,7 @@ package com.shrey.snypr;
 
 import java.util.List;
 
+import com.example.snypr.MainActivity;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -22,6 +23,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -46,6 +49,10 @@ public class FriendSnyps extends Activity {
 		adapter = new Adapter(this);
 		go = false;
 		u = FriendPage.getUserAgain();
+		if(u == null){
+			ctx.startActivity(new Intent(ctx,MainActivity.class));
+			
+		}
 		actionbar = getActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setTitle(u.getUsername() + "'s Snyps");
@@ -141,6 +148,28 @@ public class FriendSnyps extends Activity {
 	
 	public static ParseUser getUserThirdTime(){
 		return u;
+	}
+	
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    // Inflate the menu items for use in the action bar
+	    getMenuInflater().inflate(R.menu.main, menu);
+	     super.onCreateOptionsMenu(menu);
+	     
+	     return true;
+	}
+
+	
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        
+	        case R.id.action_gohome:
+	        	ctx.startActivity(new Intent(ctx, MainActivity.class));
+	            return true;
+	       
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 }
 	
