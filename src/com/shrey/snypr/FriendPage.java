@@ -11,6 +11,7 @@ import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.shrey.pojos.Friend;
+import com.shrey.util.GMailSender;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -18,6 +19,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -34,10 +36,12 @@ public class FriendPage extends Activity {
 	TextView n;
 	Button f,v,unf;
 	Friend friend;
+	String friendEmail;
 	int score;
 	ParseQuery<ParseObject> query = ParseQuery.getQuery("Friend");
 	ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Photo");
 	ParseQuery<ParseInstallation> pushQuery = ParseInstallation.getQuery();
+	ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
 	ActionBar actionbar;
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -66,9 +70,11 @@ public class FriendPage extends Activity {
 		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 		query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
 		query.whereEqualTo("friendname", u.getUsername());
+		if(u.getUsername().equals(ParseUser.getCurrentUser().getUsername())){
+			ctx.startActivity(new Intent(ctx,MainActivity.class));
+		}
 		
-		
-		
+		else{
 		query.findInBackground(new FindCallback<ParseObject>(){
 
 			@Override
@@ -77,10 +83,11 @@ public class FriendPage extends Activity {
 				if(objs!=null){
 					//f.setEnabled(false);
 					for(int i = 0; i<objs.size();i++){
-						if(objs.get(i).getString("friendname").equals(u.getUsername()) && 
-								objs.get(i).getString("username").equals(ParseUser.getCurrentUser().getUsername())){
-							f.setEnabled(false);
+						if((objs.get(i).getString("friendname").equals(u.getUsername()) && 
+								objs.get(i).getString("username").equals(ParseUser.getCurrentUser().getUsername())) ){
 							f.setText("Following");
+							f.setEnabled(false);
+							
 							Log.d("username",objs.get(i).getString("friendname"));
 							
 							
@@ -118,7 +125,7 @@ public class FriendPage extends Activity {
 		});
 		
 		}
-		
+		}
 		
 		f.setOnClickListener(new View.OnClickListener() {
 			
@@ -129,12 +136,12 @@ public class FriendPage extends Activity {
 				friend.addFriendName(u.getUsername());
 				friend.addUserName(ParseUser.getCurrentUser().getUsername());
 				friend.saveEventually();
+				friendEmail = u.getEmail();
 				
-				ParsePush push = new ParsePush();
-				push.setQuery(pushQuery);
+				new send(friendEmail).execute();
 				
-				push.setMessage(ParseUser.getCurrentUser().getUsername() + "added you!");
-				push.sendInBackground();
+				
+				
 				
 				Toast.makeText(ctx, "You are now following " + u.getUsername(), Toast.LENGTH_SHORT).show();
 				
@@ -217,6 +224,32 @@ public class FriendPage extends Activity {
 	    }
 	}
 	
+	private class send extends AsyncTask<Object,Void,Boolean>{
+		String email;
+		send(String emailString){
+			email = emailString;
+		}
+		
+		@Override
+		protected Boolean doInBackground(Object... arg0) {
+			// TODO Auto-generated method stub
+			try {   
+                GMailSender sender = new GMailSender("snyprapp@gmail.com", "shreyas1");
+                sender.sendMail("Friend followed you",   
+                        ParseUser.getCurrentUser().getUsername() + " followed you!",
+                        "snyprapp@gmail.com", email   
+                        );
+                Log.d("email sent to",email);
+                return true;
+            } catch (Exception en) {   
+                Log.e("SendMail failure", en.getMessage());  
+                return false;
+            }
+			
+			
+		}
+		
+	}
 	
 	
 }

@@ -41,11 +41,11 @@ public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.friend_page);
 		View view = this.getWindow().getDecorView();
-        
+        ctx = this;
 		friend = MyFriends.getFriend();
 		if(friend == null){
 			ctx.startActivity(new Intent(ctx,MainActivity.class));
-		}
+		}else{
 		Log.d("friendname in my friend page",friend.getString("friendname"));
 		n = (TextView)findViewById(R.id.name);
 		actionbar = getActionBar();
@@ -92,9 +92,7 @@ public void onCreate(Bundle savedInstanceState){
 		f.setEnabled(false);
 		f.setVisibility(View.INVISIBLE);
 		
-		if(friend == null){
-			ctx.startActivity(new Intent(ctx,MyFriends.class));
-		}
+		
 		
 		unf.setOnClickListener(new View.OnClickListener() {
 			
@@ -123,7 +121,7 @@ v.setOnClickListener(new View.OnClickListener() {
 				ctx.startActivity(new Intent(ctx,MyFriendSnyps.class));
 			}
 		});
-		
+		}
 		
 	}
 

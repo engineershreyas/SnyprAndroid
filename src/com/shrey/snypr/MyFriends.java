@@ -59,7 +59,7 @@ public class MyFriends extends Activity {
 			public ParseQuery<Friend> create() {
 				ParseQuery<Friend> query = ParseQuery.getQuery("Friend");
 				query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
-				query.addAscendingOrder("friendname");
+				//query.addAscendingOrder("friendname");
 				
 				return query;
 			}
@@ -80,18 +80,25 @@ public class MyFriends extends Activity {
 				// TODO Auto-generated method stub
 				
 				query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
+				//query.addAscendingOrder("friendname");
                 query.findInBackground(new FindCallback<ParseObject>(){
 
 					@Override
-					public void done(List<ParseObject> friends, ParseException arg1) {
+					public void done(List<ParseObject> friends, ParseException e) {
 						// TODO Auto-generated method stub
 						
+						if(e == null){
 							friend = friends.get(position);
+							ctx.startActivity(new Intent(ctx,MyFriendPage.class));
+						}
+						else{
+							Log.e("error",e.getMessage());
+						}
 						
 					}
                 	
                 });
-                ctx.startActivity(new Intent(ctx,MyFriendPage.class));
+                
 			}
 		});
 		

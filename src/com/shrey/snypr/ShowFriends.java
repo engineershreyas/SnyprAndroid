@@ -61,8 +61,9 @@ public class ShowFriends extends Activity {
 			public ParseQuery<ParseUser> create() {
 				// TODO Auto-generated method stub
 				ParseQuery query = ParseUser.getQuery();
+				
 				query.whereStartsWith("username", username);
-				query.whereNotEqualTo("username", ParseUser.getCurrentUser().getUsername());
+				
 				
 				return query;
 			}

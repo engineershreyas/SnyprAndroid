@@ -85,6 +85,7 @@ public class SignIn extends Activity{
 						// TODO Auto-generated method stub
 						if(user!=null){
 							ctx.startActivity(new Intent(ctx,MainActivity.class));
+							Log.d("success","sign in succeeded");
 						}
 						else{
 							Log.e("Sign in failed",e.getMessage());
