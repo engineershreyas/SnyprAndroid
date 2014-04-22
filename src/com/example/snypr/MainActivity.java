@@ -217,7 +217,7 @@ public class MainActivity extends Activity {
 		actionbar = getActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setTitle("Snypr");
-		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
+		//actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 		
 		
     }

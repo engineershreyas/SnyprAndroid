@@ -150,7 +150,7 @@ public class SignIn extends Activity{
 		actionbar = getActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setTitle("Sign In");
-		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
+		//actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 		
 	}
 	

@@ -75,28 +75,10 @@ public class ViewSnyps extends Activity{
 		actionbar = getActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setTitle("Your Snyps");
-		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
+		//actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 		ph = null;
 		ctx = this;
-		//p = (ParseImageView)findViewById(R.id.snyp_preview_image);
-		//p.setVisibility(View.GONE);
 		
-		/*
-		query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
-		query.findInBackground(new FindCallback<ParseObject>(){
-
-			@Override
-			public void done(List<ParseObject> photos, ParseException arg1) {
-				// TODO Auto-generated method stub
-				if(photos!=null){
-					for(int i = 0;i<photos.size();i++){
-						parseList.add(photos.get(i).getParseFile("photos"));
-					}
-				}
-			}
-			
-		});
-		*/
 		adapter = new MyAdapter(this);
 		
 		

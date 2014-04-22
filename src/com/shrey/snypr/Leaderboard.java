@@ -47,7 +47,7 @@ public class Leaderboard extends Activity {
 		actionbar = getActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setTitle("Leaderboard (all users)");
-		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
+		//actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 		ctx = this;
 		adapter = new Adapter(ctx);
 		adapter2 = new SecondAdapter(ctx);

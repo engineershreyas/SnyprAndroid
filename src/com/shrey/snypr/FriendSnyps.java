@@ -56,7 +56,7 @@ public class FriendSnyps extends Activity {
 		actionbar = getActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setTitle(u.getUsername() + "'s Snyps");
-		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
+		//actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 		Log.d("username atsnyps",u.getUsername());
 		listview = (ListView)findViewById(R.id.imageList);
 		listview.setAdapter(adapter);

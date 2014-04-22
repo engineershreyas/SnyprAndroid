@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,7 +36,7 @@ public class FriendImageCloseup extends Activity {
 	Context ctx;
 	ParseObject ph;
 	ParseObject newPhoto;
-	TextView commentCount;
+	TextView likeCount;
 	ParseUser u;
 	Button b,un;
 	Friend friend;
@@ -70,7 +71,8 @@ public class FriendImageCloseup extends Activity {
 		b = (Button)findViewById(R.id.likeButton);
 		un = (Button)findViewById(R.id.unlikeButton);
 		un.setVisibility(View.INVISIBLE);
-		commentCount = (TextView)findViewById(R.id.likeCount);	
+		likeCount = (TextView)findViewById(R.id.likeCount);	
+		likeCount.setTextColor(Color.RED);
 		setLikeCount();
 		p.setParseFile(ph.getParseFile("photo"));
 		p.loadInBackground(new GetDataCallback(){
@@ -236,7 +238,7 @@ public class FriendImageCloseup extends Activity {
 		actionbar = getActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setTitle(ParseUser.getCurrentUser().getUsername()+ "'s picture");
-		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
+		
 	}
 		
 
@@ -245,10 +247,10 @@ public class FriendImageCloseup extends Activity {
 	
 	public void setLikeCount(){
 		if(String.valueOf(ph.getInt("likes"))!=null){
-		commentCount.setText(String.valueOf(ph.getInt("likes")));
+		likeCount.setText(Html.fromHtml("<b>Likes: </b> " + String.valueOf(ph.getInt("likes"))));
 		}
 		else{
-			commentCount.setText("0");
+			likeCount.setText(Html.fromHtml("<b>Likes: </b> 0"));
 		}
 	}
 	

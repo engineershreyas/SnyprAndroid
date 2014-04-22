@@ -67,7 +67,7 @@ public class FriendPage extends Activity {
 		
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setTitle(u.getUsername());
-		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
+		///actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 		query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
 		query.whereEqualTo("friendname", u.getUsername());
 		if(u.getUsername().equals(ParseUser.getCurrentUser().getUsername())){
@@ -75,6 +75,7 @@ public class FriendPage extends Activity {
 		}
 		
 		else{
+			n.setText("Score: 0");
 		query.findInBackground(new FindCallback<ParseObject>(){
 
 			@Override
@@ -109,7 +110,9 @@ public class FriendPage extends Activity {
 				// TODO Auto-generated method stub
 				if(objs!=null){
 					for(int i = 0;i<objs.size();i++){
-						score+=objs.get(i).getInt("likes");
+						int x = 0;
+						x+=objs.get(i).getInt("likes");
+						score = x;
 						n.setText("Score: "+String.valueOf(score));
 						//u.put("score", score);
 						//u.saveEventually();
@@ -235,7 +238,7 @@ public class FriendPage extends Activity {
 			// TODO Auto-generated method stub
 			try {   
                 GMailSender sender = new GMailSender("snyprapp@gmail.com", "shreyas1");
-                sender.sendMail("Friend followed you",   
+                sender.sendMail("Someone followed you",   
                         ParseUser.getCurrentUser().getUsername() + " followed you!",
                         "snyprapp@gmail.com", email   
                         );

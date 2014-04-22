@@ -251,7 +251,7 @@ public class MyFriendImageCloseup extends Activity {
 		actionbar = getActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setTitle(ParseUser.getCurrentUser().getUsername()+ "'s picture");
-		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
+		
 	}
 		
 

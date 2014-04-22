@@ -51,7 +51,7 @@ public class MyFriends extends Activity {
 		actionbar = getActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setTitle("Your friends");
-		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
+		//actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 		ctx = this;
 		qf = new ParseQueryAdapter.QueryFactory<Friend>() {
 

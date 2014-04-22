@@ -104,4 +104,5 @@ public class FriendSearch extends Activity{
 	    }
 	}
 	
+	
 }

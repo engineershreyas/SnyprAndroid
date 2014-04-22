@@ -52,7 +52,7 @@ public class MyFriendSnyps extends Activity {
 			ctx.startActivity(new Intent(ctx,MainActivity.class));
 		}
 		actionbar.setTitle(friend.getString("friendname")+"'s snyps");
-		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
+		//actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 		ph = null;
 		ctx = this;
 		//p = (ParseImageView)findViewById(R.id.snyp_preview_image);

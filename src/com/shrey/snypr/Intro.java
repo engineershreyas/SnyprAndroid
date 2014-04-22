@@ -21,13 +21,14 @@ public class Intro extends Activity {
 		Button a,b;
 		Context ctx;
 		ActionBar actionbar;
+		
 		public void onCreate(Bundle savedInstanceState){
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.intro);
 			actionbar = getActionBar();
 			actionbar.setDisplayHomeAsUpEnabled(true);
 			actionbar.setTitle("Welcome to Snypr!");
-			actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
+			//actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 			
 			ctx = this;
 			a = (Button)findViewById(R.id.r);

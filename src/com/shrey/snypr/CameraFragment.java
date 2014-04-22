@@ -160,6 +160,9 @@ GooglePlayServicesClient.OnConnectionFailedListener, com.google.android.gms.loca
 		photoButton = (ImageButton) v.findViewById(R.id.camera_photo_button);
 		photoButton.setBackgroundColor(Color.TRANSPARENT);
 		locationClient = new LocationClient(this.getActivity().getApplicationContext(), this, this);
+		if(locationClient == null){
+	    	Toast.makeText(getActivity().getApplicationContext(), "Please turn on location services!", Toast.LENGTH_SHORT).show();
+	    }
 		locationRequest = LocationRequest.create();
 
 	    // Set the update interval
@@ -361,7 +364,14 @@ GooglePlayServicesClient.OnConnectionFailedListener, com.google.android.gms.loca
 	
 	public void onStart(){
 		super.onStart();
+		if(locationClient!=null){
 		 locationClient.connect();
+		}
+		else{
+			
+		    	Toast.makeText(ctx, "Please turn on location services!", Toast.LENGTH_SHORT).show();
+		    
+		}
 	}
 	
 	@Override

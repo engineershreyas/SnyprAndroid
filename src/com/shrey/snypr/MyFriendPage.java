@@ -51,7 +51,7 @@ public void onCreate(Bundle savedInstanceState){
 		actionbar = getActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setTitle(friend.getString("friendname"));
-		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
+		//actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 		ctx = this;
 		query.whereEqualTo("username",friend.getString("friendname"));
 		

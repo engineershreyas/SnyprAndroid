@@ -173,6 +173,9 @@ GooglePlayServicesClient.OnConnectionFailedListener, com.google.android.gms.loca
 
 	    // Create a new location client, using the enclosing class to handle callbacks.
 	    locationClient = new LocationClient(this, this, this);
+	    if(locationClient == null){
+	    	Toast.makeText(getApplicationContext(), "Please turn on location services!", Toast.LENGTH_SHORT).show();
+	    }
 	    
 	    /*QueryFactory<SnypPoint> factory =
 	            new ParseQueryAdapter.QueryFactory<SnypPoint>() {
@@ -231,7 +234,12 @@ GooglePlayServicesClient.OnConnectionFailedListener, com.google.android.gms.loca
 		super.onStart();
 
 	    // Connect to the location services client
+		if(locationClient!=null){
 	    locationClient.connect();
+		}
+		else{
+			Toast.makeText(getApplicationContext(), "Please turn on location services!", Toast.LENGTH_SHORT).show();
+		}
 	}
 	
 	protected void onResume(){
@@ -550,6 +558,7 @@ GooglePlayServicesClient.OnConnectionFailedListener, com.google.android.gms.loca
 		          }
 		          // Add a new marker
 		          Marker marker = map.getMap().addMarker(markerOpts);
+		 
 		          mapMarkers.put(post.getObjectId(), marker);
 		          if (post.getObjectId().equals(selectedObjectId)) {
 		            marker.showInfoWindow();

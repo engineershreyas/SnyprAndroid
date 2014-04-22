@@ -153,7 +153,7 @@ public class ImageCloseup extends Activity{
 		actionbar = getActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setTitle("Your picture");
-		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
+		
 	}
 		
 
