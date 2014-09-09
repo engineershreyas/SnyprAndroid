@@ -1,6 +1,7 @@
 package com.shrey.snypr;
 
 import java.util.HashMap;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -155,8 +156,9 @@ GooglePlayServicesClient.OnConnectionFailedListener, com.google.android.gms.loca
 		actionbar = getActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setTitle("Snyp Map");
-		actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
+		
 		radius = Snypr.getSearchDistance();
+		Toast.makeText(this, "distance: " + radius, Toast.LENGTH_LONG).show();
 		lastRadius = radius;
 		
 		// Create a new global location parameters object
@@ -464,9 +466,10 @@ GooglePlayServicesClient.OnConnectionFailedListener, com.google.android.gms.loca
 	    mapQuery.include("user");
 	    //mapQuery.orderByDescending("createdAt");
 	    mapQuery.setLimit(MAX_POST_SEARCH_RESULTS);
+	    
 	    // Kick off the query in the background
 	    mapQuery.findInBackground(new FindCallback<SnypPoint>() {
-	      
+	    
 		
 
 		@Override

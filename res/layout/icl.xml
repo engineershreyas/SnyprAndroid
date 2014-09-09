@@ -2,12 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
+
     <com.parse.ParseImageView
         android:id="@+id/snyp_preview_image1"
         android:layout_width="match_parent"
-        android:layout_height="400dp" 
-        android:layout_gravity="center"
-        />
+        android:layout_height="300dp"
+        android:layout_gravity="center" />
 
     <Button
         style="@style/btnStyleOrange"
@@ -33,10 +33,17 @@
         android:id="@+id/likeCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/likeButton"
-        android:layout_alignBottom="@+id/likeButton"
-        android:layout_toRightOf="@+id/unlikeButton"
-        android:text=""
+        android:layout_alignLeft="@+id/likeButton"
+        android:layout_alignRight="@+id/unlikeButton"
+        android:layout_below="@+id/snyp_preview_image1"
+        android:layout_marginTop="16dp"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/likeCount"
+        android:layout_toLeftOf="@+id/likeCount" />
 
 </RelativeLayout>

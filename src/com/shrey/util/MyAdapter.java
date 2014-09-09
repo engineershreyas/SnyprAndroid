@@ -75,6 +75,9 @@ public class MyAdapter extends ParseQueryAdapter<Photo> {
 				
 			});
 		}
+		else{
+			viewHolder.p.setImageResource(android.R.color.transparent);
+		}
 		
 		return v;
 	}

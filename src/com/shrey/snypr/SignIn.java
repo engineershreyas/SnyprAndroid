@@ -46,6 +46,7 @@ import com.shrey.snypr.SignIn;
 public class SignIn extends Activity{
 	Button b;
 	EditText u,p;
+	
 	List<User> l = new ArrayList<User>();
 	ActionBar actionbar;
 	User[] la;

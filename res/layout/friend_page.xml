@@ -16,24 +16,13 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
-        android:id="@+id/Add"
-        style="@style/btnStyleOrange"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/View"
-        android:layout_alignRight="@+id/View"
-        android:layout_below="@+id/name"
-        android:layout_marginTop="110dp"
-        android:text="Follow" />
-
-    <Button
         android:id="@+id/View"
         style="@style/btnStyleOrange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="104dp"
+        android:layout_marginBottom="53dp"
         android:text="View Snyps" />
 
     <Button
@@ -44,8 +33,27 @@
         android:layout_above="@+id/View"
         android:layout_alignLeft="@+id/View"
         android:layout_alignRight="@+id/View"
-        android:layout_marginBottom="36dp"
-        android:visibility = "invisible"
-        android:text="Unfollow" />
+        android:layout_marginBottom="16dp"
+        android:text="Unfollow"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/Add"
+        style="@style/btnStyleOrange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/unfollow"
+        android:layout_alignLeft="@+id/unfollow"
+        android:layout_alignRight="@+id/unfollow"
+        android:layout_marginBottom="22dp"
+        android:text="Follow" />
+
+    <com.parse.ParseImageView
+        android:id="@+id/top_image"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="170dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/name" />
 
 </RelativeLayout>

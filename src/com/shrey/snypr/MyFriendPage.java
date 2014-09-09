@@ -5,7 +5,9 @@ import java.util.List;
 import com.example.snypr.MainActivity;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
+import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -33,17 +35,24 @@ public class MyFriendPage extends Activity {
 	TextView n;
 	Context ctx;
 	Button f,v,unf;
+	
 	ActionBar actionbar;
 	ParseUser friendUser;
+	Photo topPhoto;
 	int friendscore;
 	ParseQuery<Photo> query = ParseQuery.getQuery("Photo");
+	ParseQuery<Photo> query1 = ParseQuery.getQuery("Photo");
+	ParseImageView top;
 public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.friend_page);
 		View view = this.getWindow().getDecorView();
         ctx = this;
+        
 		friend = MyFriends.getFriend();
-		if(friend == null){
+		top = (ParseImageView)findViewById(R.id.top_image);
+
+				if(friend == null){
 			ctx.startActivity(new Intent(ctx,MainActivity.class));
 		}else{
 		Log.d("friendname in my friend page",friend.getString("friendname"));
@@ -53,6 +62,36 @@ public void onCreate(Bundle savedInstanceState){
 		actionbar.setTitle(friend.getString("friendname"));
 		//actionbar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 		ctx = this;
+		
+		query1.whereEqualTo("username",friend.getString("friendname"));
+		query1.addDescendingOrder("likes");
+		try {
+			topPhoto = query1.getFirst();
+			top.setParseFile(topPhoto.getParseFile("photo"));
+			top.loadInBackground(new GetDataCallback(){
+
+				@Override
+				public void done(byte[] data, ParseException arg1) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+			});
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			Toast.makeText(ctx, e.getMessage(), Toast.LENGTH_SHORT).show();
+		}
+		
+		top.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Toast.makeText(ctx, "This is " + friend.getString("friendname") + "'s top score with " + topPhoto.getInt("likes") + " likes!", Toast.LENGTH_SHORT).show();
+			}
+		});
+		
 		query.whereEqualTo("username",friend.getString("friendname"));
 		
 		query.findInBackground(new FindCallback<Photo>(){
@@ -64,7 +103,7 @@ public void onCreate(Bundle savedInstanceState){
 					for(int i = 0;i<objs.size();i++){
 						friendscore+= objs.get(i).getInt("likes");
 						Log.d("score of friend",String.valueOf(friendscore));
-						n.setText("Score: " + String.valueOf(friendscore));
+						n.setText(friend.getString("friendname") + "\nScore: " + String.valueOf(friendscore));
 						friend.put("friendScore", friendscore);
 						friend.saveEventually();
 					}
@@ -140,7 +179,7 @@ query.whereEqualTo("username",friend.getString("friendname"));
 					for(int i = 0;i<objs.size();i++){
 						friendscore+= objs.get(i).getInt("likes");
 						Log.d("score of friend",String.valueOf(friendscore));
-						n.setText("Score: " + String.valueOf(friendscore));
+						n.setText(friend.getString("friendname") + "\nScore: " + String.valueOf(friendscore));
 						friend.put("friendScore", friendscore);
 						friend.saveEventually();
 					}

@@ -113,7 +113,7 @@ public class FriendPage extends Activity {
 						int x = 0;
 						x+=objs.get(i).getInt("likes");
 						score = x;
-						n.setText("Score: "+String.valueOf(score));
+						n.setText(u.getUsername()+"\nScore: "+String.valueOf(score));
 						//u.put("score", score);
 						//u.saveEventually();
 					}
